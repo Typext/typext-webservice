@@ -19,4 +19,14 @@ inviteUsersRouter.post(
   inviteUsersController.create,
 );
 
+inviteUsersRouter.put(
+  '/update',
+  celebrate({
+    [Segments.BODY]: {
+      token: Joi.string().uuid().required(),
+    },
+  }),
+  inviteUsersController.update,
+);
+
 export default inviteUsersRouter;
