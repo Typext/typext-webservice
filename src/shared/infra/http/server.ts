@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 
-
 import { errors } from 'celebrate';
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
@@ -11,12 +10,6 @@ import routes from './routes';
 
 import '@shared/infra/typeorm';
 import '@shared/container';
-
-import express from 'express';
-
-
-import routes from './routes';
-import '@shared/infra/typeorm';
 
 const app = express();
 
