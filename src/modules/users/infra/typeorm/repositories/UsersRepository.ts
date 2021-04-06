@@ -33,6 +33,10 @@ class UsersRepository implements IUsersRepository {
     const usersList = await this.ormRepository.find();
     return usersList;
   }
+
+  public async save(user: User): Promise<User> {
+    return this.ormRepository.save(user);
+  }
 }
 
 export default UsersRepository;
