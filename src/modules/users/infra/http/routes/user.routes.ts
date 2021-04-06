@@ -1,13 +1,26 @@
 import { celebrate, Segments, Joi } from 'celebrate';
 import { Router } from 'express';
 
-import ensureAuthenticated from '@shared/infra/http/middlaware/ensureAuthenticated';
+import ensureAuthenticated from '@shared/infra/http/middlewares/ensureAuthenticated';
 
 import UsersController from '../controllers/UsersController';
 
 const usersRouter = Router();
 
 const usersController = new UsersController();
+
+usersRouter.get(
+  '/:id',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+  }),
+  usersController.show,
+  ensureAuthenticated,
+);
+
+usersRouter.get('/', ensureAuthenticated, usersController.index);
 
 usersRouter.post(
   '/',
@@ -26,17 +39,30 @@ usersRouter.post(
   usersController.create,
 );
 
-usersRouter.get(
-  '/:id',
+usersRouter.put(
+  '/',
   celebrate({
-    [Segments.PARAMS]: {
-      id: Joi.string().uuid().required(),
+    [Segments.BODY]: {
+      name: Joi.string(),
+      old_password: Joi.string(),
+      password: Joi.string().when('old_password', {
+        is: null,
+        then: Joi.optional(),
+        otherwise: Joi.string().required(),
+      }),
+      password_confirmation: Joi.string().when('password', {
+        is: null,
+        then: Joi.optional(),
+        otherwise: Joi.string().required().valid(Joi.ref('password')),
+      }),
+      office: Joi.string(),
+      area: Joi.string(),
+      company: Joi.string(),
+      phone: Joi.string(),
     },
   }),
-  usersController.show,
   ensureAuthenticated,
+  usersController.update,
 );
-
-usersRouter.get('/', ensureAuthenticated, usersController.index);
 
 export default usersRouter;

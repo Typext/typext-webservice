@@ -5,4 +5,5 @@ export default interface IUsersRepository {
   findByEmail(email: string): Promise<User | undefined>;
   create(user: User): Promise<User>;
   findAll(): Promise<User[]>;
+  save(user: User): Promise<User>;
 }
