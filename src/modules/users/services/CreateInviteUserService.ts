@@ -67,7 +67,7 @@ class CreateInviteUserService {
         file: inviteUserTemplate,
         variables: {
           name: (await inviteUser).name,
-          link: `${process.env.APP_WEB_URL}/invite-user/${token}`,
+          link: `${process.env.APP_WEB_URL}/invite/${token}`,
         },
       },
     });

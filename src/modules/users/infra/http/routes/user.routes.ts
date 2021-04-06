@@ -1,6 +1,8 @@
 import { celebrate, Segments, Joi } from 'celebrate';
 import { Router } from 'express';
 
+import ensureAuthenticated from '@shared/infra/http/middlaware/ensureAuthenticated';
+
 import UsersController from '../controllers/UsersController';
 
 const usersRouter = Router();
@@ -32,6 +34,9 @@ usersRouter.get(
     },
   }),
   usersController.show,
+  ensureAuthenticated,
 );
+
+usersRouter.get('/', ensureAuthenticated, usersController.index);
 
 export default usersRouter;
