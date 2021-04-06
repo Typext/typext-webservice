@@ -1,4 +1,5 @@
 import CreateUserService from '@modules/users/services/CreateUserService';
+import ListUsersService from '@modules/users/services/ListUsersService';
 import ShowUserService from '@modules/users/services/ShowUserService';
 import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
@@ -13,6 +14,13 @@ export default class UsersController {
     const user = await showUser.execute({ userId });
 
     return response.json(classToClass(user));
+  }
+
+  public async index(request: Request, response: Response): Promise<Response> {
+    const listUserService = container.resolve(ListUsersService);
+    const userType = request.user.type;
+    const usersList = await listUserService.execute(userType);
+    return response.json(usersList);
   }
 
   public async create(request: Request, response: Response): Promise<Response> {

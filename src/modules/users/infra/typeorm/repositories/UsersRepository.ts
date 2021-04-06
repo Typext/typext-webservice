@@ -5,7 +5,6 @@ import User from '../entities/User';
 
 class UsersRepository implements IUsersRepository {
   private ormRepository: Repository<User>;
-
   constructor() {
     this.ormRepository = getRepository(User);
   }
@@ -28,6 +27,11 @@ class UsersRepository implements IUsersRepository {
     await this.ormRepository.save(user);
 
     return user;
+  }
+
+  public async findAll(): Promise<User[]> {
+    const usersList = await this.ormRepository.find();
+    return usersList;
   }
 }
 
