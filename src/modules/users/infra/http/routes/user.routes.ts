@@ -65,4 +65,15 @@ usersRouter.put(
   usersController.update,
 );
 
+usersRouter.patch(
+  '/:id',
+  celebrate({
+    [Segments.BODY]: {
+      type: Joi.string().required(),
+    },
+  }),
+  ensureAuthenticated,
+  usersController.patch,
+);
+
 export default usersRouter;
