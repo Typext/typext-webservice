@@ -16,6 +16,7 @@ class ListUsersService {
     if (userType !== 'Admin') {
       throw new AppError(
         'This user type does not have access to this resource',
+        401,
       );
     }
 
