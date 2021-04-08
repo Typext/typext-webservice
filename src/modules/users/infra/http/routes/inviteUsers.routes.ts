@@ -18,7 +18,6 @@ inviteUsersRouter.post(
       type: Joi.string().required(),
     },
   }),
-  ensureAuthenticated,
   inviteUsersController.create,
 );
 

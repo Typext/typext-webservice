@@ -9,7 +9,7 @@ import { container } from 'tsyringe';
 
 export default class UsersController {
   public async show(request: Request, response: Response): Promise<Response> {
-    const userId = request.params.id;
+    const userId = request.user.id;
 
     const showUser = container.resolve(ShowUserService);
 
@@ -22,7 +22,7 @@ export default class UsersController {
     const listUserService = container.resolve(ListUsersService);
     const userType = request.user.type;
     const usersList = await listUserService.execute(userType);
-    return response.json(usersList);
+    return response.json(classToClass(usersList));
   }
 
   public async create(request: Request, response: Response): Promise<Response> {

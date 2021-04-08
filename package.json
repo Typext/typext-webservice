@@ -24,6 +24,7 @@
     "nodemailer": "^6.5.0",
     "pg": "^8.5.1",
     "reflect-metadata": "^0.1.13",
+    "swagger-ui-express": "^4.1.6",
     "tsyringe": "^4.5.0",
     "typeorm": "^0.2.32",
     "uuidv4": "^6.2.7"
@@ -35,6 +36,7 @@
     "@types/jest": "^26.0.22",
     "@types/jsonwebtoken": "^8.5.1",
     "@types/nodemailer": "^6.4.1",
+    "@types/swagger-ui-express": "^4.1.2",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
     "eslint": "^7.23.0",

@@ -46,7 +46,7 @@ class UpdateUserService {
     if (password && !old_password) {
       throw new AppError(
         'You need to inform the old password to set a new password.',
-        403,
+        401,
       );
     }
 
@@ -57,7 +57,7 @@ class UpdateUserService {
       );
 
       if (!checkOldPassword) {
-        throw new AppError('Old password does not match.', 403);
+        throw new AppError('Old password does not match.', 401);
       }
 
       user.password = await this.hashProvider.generateHash(password);

@@ -1,0 +1,522 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Typext Documentation",
+    "description": "This is a Minutes API",
+    "version": "1.0.0",
+    "contact": {
+      "email": "contact@typext.com.br"
+    }
+  },
+  "paths": {
+    "/invite-users": {
+      "post": {
+        "tags": ["Invite Users"],
+        "summary": "Envio de convite para novos usuários acessarem a plataforma",
+        "description": "Envio do link com rastreabilidade de um token para convite por e-mail.",
+        "security": {
+          "Bearer": []
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "John Doe",
+                  "email": "johndoe@example.com",
+                  "type": "Admin"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Your invitation has been sent!"
+          },
+          "401": {
+            "description": "This email is already in use / That user type does not exist"
+          },
+          "403": {
+            "description": "That user type does not exist"
+          }
+        }
+      }
+    },
+
+    "/invite-users/update": {
+      "put": {
+        "tags": ["Invite Users"],
+        "summary": "Atualização da data de expiração do token",
+        "description": "Caso o token do usuário expire, essa rota deve ser chamada para que a data seja atualizada e um novo e-mail de convite seja enviado ao usuário.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "token": "5a3df27f-833b-4fb6-8601-74564ceb9cc7"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New invitation email has been sent"
+          },
+          "404": {
+            "description": "User does not exists / User token does not exists"
+          }
+        }
+      }
+    },
+
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Criação de um novo usuário",
+        "description": "Essa rota permite a criação de um novo usuário que foi convidado.",
+        "security": {
+          "Bearer": []
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "uuid"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "password_confirmation": {
+                    "type": "string"
+                  },
+                  "office": {
+                    "type": "string"
+                  },
+                  "area": {
+                    "type": "string"
+                  },
+                  "company": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "token": "11310b58-a402-4c56-a5a8-e6e1bdcb824a",
+                  "name": "John Doe",
+                  "password": "123456",
+                  "password_confirmation": "123456",
+                  "office": "CTO",
+                  "area": "TI",
+                  "company": "Your Company",
+                  "phone": "12988888888"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Token expired"
+          },
+          "404": {
+            "description": "User does not exists / User token does not exists"
+          }
+        }
+      },
+
+      "get": {
+        "tags": ["Users"],
+        "summary": "Busca todos os usuários da plataforma",
+        "description": "Essa rota permite que o usuário Administrador busque todos os usuários da plataforma.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "office": {
+                        "type": "string"
+                      },
+                      "area": {
+                        "type": "string"
+                      },
+                      "company": {
+                        "type": "string"
+                      },
+                      "phone": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "active": {
+                        "type": "boolean"
+                      },
+                      "created_at": {
+                        "type": "timestamp with time zone"
+                      },
+                      "updated_at": {
+                        "type": "timestamp with time zone"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "JWT token is missing / Invalid JWT token"
+
+          },
+          "403": {
+            "description": "This user type does not have access to this resource"
+          }
+        }
+      }
+    },
+
+    "/users/logged": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Busca o usuário logado",
+        "description": "Essa rota permite buscar o usuário que está logado na aplicação.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "office": {
+                        "type": "string"
+                      },
+                      "area": {
+                        "type": "string"
+                      },
+                      "company": {
+                        "type": "string"
+                      },
+                      "phone": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "active": {
+                        "type": "boolean"
+                      },
+                      "created_at": {
+                        "type": "timestamp with time zone"
+                      },
+                      "updated_at": {
+                        "type": "timestamp with time zone"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "JWT token is missing / Invalid JWT token"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+
+      "put": {
+        "tags": ["Users"],
+        "summary": "Atualização das informações do usuário",
+        "description": "Essa rota permite atualizar informações do usuário logado.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "old_password": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "password_confirmation": {
+                    "type": "string"
+                  },
+                  "office": {
+                    "type": "string"
+                  },
+                  "area": {
+                    "type": "string"
+                  },
+                  "company": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "John Doe",
+                  "old_password": "123456",
+                  "password": "123123",
+                  "password_confirmation": "123123",
+                  "office": "CTO",
+                  "area": "TI",
+                  "company": "Your Company",
+                  "phone": "12988888888"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "You need to inform the old password to set a new password / Old password does not match"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+
+    "/users/{id}": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Atualização do nível de permissão do usuário",
+        "description": "Essa rota permite que o usuário Administrador atualize o nível de permissão de qualquer usuário. O ID deve estar contido no parâmetro da URL.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do usuário que deseja atualizar",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "type": "Gerente"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "This user type does not have access to this resource"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+
+    "/sessions": {
+      "post": {
+        "tags": ["Sessions"],
+        "summary": "Autenticação do usuário",
+        "description": "Essa rota permite o login do usuário, fornecendo o token de autenticação",
+        "security": {
+          "Bearer": []
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "email": "johndoe@example.com",
+                  "password": "123456"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Incorrect email/password combination."
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "users": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "email",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "office": {
+            "type": "string"
+          },
+          "area": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean",
+            "default": false
+          },
+          "created_at": {
+            "type": "timestamp with time zone"
+          },
+          "updated_at": {
+            "type": "timestamp with time zone"
+          }
+        }
+      },
+
+      "user_tokens": {
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "token"
+        ],
+        "properties": {
+          "id": {
+            "type": "uuid"
+          },
+          "user_id": {
+            "type": "uuid (FK)"
+          },
+          "token": {
+            "type": "uuid"
+          },
+          "created_at": {
+            "type": "timestamp with time zone"
+          },
+          "updated_at": {
+            "type": "timestamp with time zone"
+          }
+        }
+      }
+
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Enter JWT Bearer Token **_only_**",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ]
+}

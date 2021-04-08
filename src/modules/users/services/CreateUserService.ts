@@ -42,7 +42,7 @@ class CreateUserService {
     const compareDate = addHours(tokenUpdatedAt, 2);
 
     if (isAfter(Date.now(), compareDate)) {
-      throw new AppError('Token expired.');
+      throw new AppError('Token expired.', 401);
     }
 
     const user = await this.usersRepository.findById(userToken.user_id);

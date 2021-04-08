@@ -37,7 +37,7 @@ class CreateInviteUserService {
       type !== 'Admin' && type !== 'Gerente' && type !== 'Usuário';
 
     if (userType) {
-      throw new AppError('That user type does not exist.', 401);
+      throw new AppError('That user type does not exist.', 403);
     }
 
     const inviteUser = this.inviteUsersRepository.create({
