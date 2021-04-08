@@ -9,13 +9,13 @@ export default class CompaniesController {
 
     const createInviteUser = container.resolve(CreateInviteUserService);
 
-    const inviteUser = await createInviteUser.execute({
+    await createInviteUser.execute({
       name,
       email,
       type,
     });
 
-    return response.json(inviteUser);
+    return response.json({ message: 'Your invitation has been sent!' });
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
@@ -25,6 +25,6 @@ export default class CompaniesController {
 
     await updateUserToken.execute({ token });
 
-    return response.json({ message: 'New e-mail confirmation was sent.' });
+    return response.json({ message: 'New invitation email has been sent.' });
   }
 }

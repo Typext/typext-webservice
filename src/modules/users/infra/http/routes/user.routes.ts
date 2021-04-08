@@ -9,16 +9,7 @@ const usersRouter = Router();
 
 const usersController = new UsersController();
 
-usersRouter.get(
-  '/:id',
-  celebrate({
-    [Segments.PARAMS]: {
-      id: Joi.string().uuid().required(),
-    },
-  }),
-  usersController.show,
-  ensureAuthenticated,
-);
+usersRouter.get('/logged', ensureAuthenticated, usersController.show);
 
 usersRouter.get('/', ensureAuthenticated, usersController.index);
 
@@ -40,7 +31,7 @@ usersRouter.post(
 );
 
 usersRouter.put(
-  '/',
+  '/logged',
   celebrate({
     [Segments.BODY]: {
       name: Joi.string(),
