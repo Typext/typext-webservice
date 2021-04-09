@@ -1,7 +1,8 @@
-import authConfig from '@config/auth';
 import { sign } from 'jsonwebtoken';
 import AppError from 'shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
+
+import authConfig from '@config/auth';
 
 import User from '../infra/typeorm/entities/User';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
