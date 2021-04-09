@@ -1,6 +1,7 @@
+import { getRepository, Repository } from 'typeorm';
+
 import ICreateInviteUserDTO from '@modules/users/dtos/ICreateInviteUserDTO';
 import IInviteUsersRepository from '@modules/users/repositories/IInviteUsersRepository';
-import { getRepository, Repository } from 'typeorm';
 
 import User from '../entities/User';
 

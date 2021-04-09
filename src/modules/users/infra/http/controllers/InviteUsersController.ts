@@ -1,7 +1,8 @@
-import CreateInviteUserService from '@modules/users/services/CreateInviteUserService';
-import UpdateInviteUserTokenService from '@modules/users/services/UpdateInviteUserTokenService';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
+
+import CreateInviteUserService from '@modules/users/services/CreateInviteUserService';
+import UpdateInviteUserTokenService from '@modules/users/services/UpdateInviteUserTokenService';
 
 export default class CompaniesController {
   public async create(request: Request, response: Response): Promise<Response> {
