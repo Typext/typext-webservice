@@ -431,6 +431,9 @@
         "tags": ["Forgot Password"],
         "summary": "Envio de e-mail de recuperação de senha",
         "description": "O e-mail enviado ao usuário contará com um link de recuperação de senha, que conterá um token para que seja autorizado a recuperar sua senha.",
+        "security": {
+          "Bearer": []
+        },
         "requestBody": {
           "content": {
             "application/json": {
@@ -454,6 +457,53 @@
           },
           "404": {
             "description": "User does not exists"
+          }
+        }
+      }
+    },
+
+    "/password/reset": {
+      "post": {
+        "tags": ["Reset Password"],
+        "summary": "Reset da senha através do link de recuperação de senha",
+        "description": "Apenas usuários vindos através deste link terão acesso à página para resetar senha.",
+        "security": {
+          "Bearer": []
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "password_confirmation": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "token": "5a3df27f-833b-4fb6-8601-74564ceb9cc7",
+                  "password": "567890",
+                  "password_confirmation": "567890"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Your password was changed successfully"
+          },
+          "401": {
+            "description": "Token expired"
+          },
+          "404": {
+            "description": "User does not exists / User token does not exists"
           }
         }
       }
