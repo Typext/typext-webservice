@@ -19,6 +19,7 @@ class FakeInviteUsersRepository implements IInviteUsersRepository {
 
     return findUser;
   }
+
   public async create({
     name,
     email,

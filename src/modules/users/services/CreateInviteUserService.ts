@@ -9,10 +9,6 @@ import User from '../infra/typeorm/entities/User';
 import IInviteUsersRepository from '../repositories/IInviteUsersRepository';
 import IUserTokensRepository from '../repositories/IUserTokensRepository';
 
-interface IResponse {
-  inviteUser: User;
-  token: string;
-}
 @injectable()
 class CreateInviteUserService {
   constructor(
@@ -30,7 +26,7 @@ class CreateInviteUserService {
     name,
     email,
     type,
-  }: ICreateInviteUserDTO): Promise<IResponse> {
+  }: ICreateInviteUserDTO): Promise<User> {
     const user = await this.inviteUsersRepository.findByEmail(email);
 
     if (user) {
@@ -61,20 +57,20 @@ class CreateInviteUserService {
 
     await this.mailProvider.sendMail({
       to: {
-        name: (await inviteUser).name,
-        email: (await inviteUser).email,
+        name: inviteUser.name,
+        email: inviteUser.email,
       },
       subject: '[Typext] Convite para Cadastro',
       templateData: {
         file: inviteUserTemplate,
         variables: {
-          name: (await inviteUser).name,
+          name: inviteUser.name,
           link: `${process.env.APP_WEB_URL}/invite/${token}`,
         },
       },
     });
 
-    return { inviteUser, token };
+    return inviteUser;
   }
 }
 
