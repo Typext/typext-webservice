@@ -9,6 +9,10 @@ import User from '../infra/typeorm/entities/User';
 import IInviteUsersRepository from '../repositories/IInviteUsersRepository';
 import IUserTokensRepository from '../repositories/IUserTokensRepository';
 
+interface IResponse {
+  inviteUser: User;
+  token: string;
+}
 @injectable()
 class CreateInviteUserService {
   constructor(
@@ -26,7 +30,7 @@ class CreateInviteUserService {
     name,
     email,
     type,
-  }: ICreateInviteUserDTO): Promise<User> {
+  }: ICreateInviteUserDTO): Promise<IResponse> {
     const user = await this.inviteUsersRepository.findByEmail(email);
 
     if (user) {
@@ -40,15 +44,13 @@ class CreateInviteUserService {
       throw new AppError('That user type does not exist.', 403);
     }
 
-    const inviteUser = this.inviteUsersRepository.create({
+    const inviteUser = await this.inviteUsersRepository.create({
       name,
       email,
       type,
     });
 
-    const { token } = await this.userTokensRepository.generate(
-      (await inviteUser).id,
-    );
+    const { token } = await this.userTokensRepository.generate(inviteUser.id);
 
     const inviteUserTemplate = path.resolve(
       __dirname,
@@ -72,7 +74,7 @@ class CreateInviteUserService {
       },
     });
 
-    return inviteUser;
+    return { inviteUser, token };
   }
 }
 
