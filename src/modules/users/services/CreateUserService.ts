@@ -1,8 +1,8 @@
-import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
-import User from '@modules/users/infra/typeorm/entities/User';
 import { isAfter, addHours } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
+import User from '@modules/users/infra/typeorm/entities/User';
 import AppError from '@shared/errors/AppError';
 
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';

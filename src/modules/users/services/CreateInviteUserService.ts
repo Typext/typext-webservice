@@ -40,15 +40,13 @@ class CreateInviteUserService {
       throw new AppError('That user type does not exist.', 403);
     }
 
-    const inviteUser = this.inviteUsersRepository.create({
+    const inviteUser = await this.inviteUsersRepository.create({
       name,
       email,
       type,
     });
 
-    const { token } = await this.userTokensRepository.generate(
-      (await inviteUser).id,
-    );
+    const { token } = await this.userTokensRepository.generate(inviteUser.id);
 
     const inviteUserTemplate = path.resolve(
       __dirname,
@@ -59,14 +57,14 @@ class CreateInviteUserService {
 
     await this.mailProvider.sendMail({
       to: {
-        name: (await inviteUser).name,
-        email: (await inviteUser).email,
+        name: inviteUser.name,
+        email: inviteUser.email,
       },
       subject: '[Typext] Convite para Cadastro',
       templateData: {
         file: inviteUserTemplate,
         variables: {
-          name: (await inviteUser).name,
+          name: inviteUser.name,
           link: `${process.env.APP_WEB_URL}/invite/${token}`,
         },
       },
