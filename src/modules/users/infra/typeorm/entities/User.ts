@@ -10,7 +10,6 @@ import {
 @Entity('users')
 class User {
   @PrimaryGeneratedColumn('uuid')
-  @Exclude()
   id: string;
 
   @Column()

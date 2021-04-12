@@ -1,5 +1,5 @@
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
-import { getRepository, Repository } from 'typeorm';
+import { DeleteResult, getRepository, Repository } from 'typeorm';
 
 import User from '../entities/User';
 
@@ -36,6 +36,15 @@ class UsersRepository implements IUsersRepository {
 
   public async save(user: User): Promise<User> {
     return this.ormRepository.save(user);
+  }
+
+  public async delete(user: User): Promise<User> {
+    await this.ormRepository.delete(user.id);
+    return user;
+  }
+
+  public async countByType(type: string): Promise<number> {
+    return this.ormRepository.count({ type });
   }
 }
 

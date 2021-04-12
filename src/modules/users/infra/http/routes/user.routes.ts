@@ -67,4 +67,6 @@ usersRouter.patch(
   usersController.patch,
 );
 
+usersRouter.delete('/:id', ensureAuthenticated, usersController.destroy);
+
 export default usersRouter;
