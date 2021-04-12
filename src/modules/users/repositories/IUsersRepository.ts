@@ -6,4 +6,6 @@ export default interface IUsersRepository {
   findAll(): Promise<User[]>;
   create(user: User): Promise<User>;
   save(user: User): Promise<User>;
+  delete(user: User): Promise<User>;
+  countByType(type: string): Promise<number>;
 }

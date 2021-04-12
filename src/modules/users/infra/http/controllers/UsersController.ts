@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
 import CreateUserService from '@modules/users/services/CreateUserService';
+import DeleteUserService from '@modules/users/services/DeleteUserService';
 import ListUsersService from '@modules/users/services/ListUsersService';
 import ShowUserService from '@modules/users/services/ShowUserService';
 import UpdateUserService from '@modules/users/services/UpdateUserService';
@@ -81,5 +82,23 @@ export default class UsersController {
     });
 
     return response.json(classToClass(user));
+  }
+
+  public async destroy(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const deleteUserService = container.resolve(DeleteUserService);
+    const deletedUserId = request.params.id;
+    const userType = request.user.type;
+
+    await deleteUserService.execute({
+      deletedUserId,
+      userType,
+    });
+
+    return response.json({
+      message: `User ${deletedUserId} deleted`,
+    });
   }
 }
