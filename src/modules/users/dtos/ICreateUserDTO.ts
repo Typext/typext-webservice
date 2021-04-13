@@ -1,5 +1,5 @@
 export default interface ICreateUserDTO {
-  token: string;
+  email: string;
   name: string;
   password: string;
   office: string;

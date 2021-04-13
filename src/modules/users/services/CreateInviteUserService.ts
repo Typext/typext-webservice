@@ -6,20 +6,16 @@ import AppError from '@shared/errors/AppError';
 
 import ICreateInviteUserDTO from '../dtos/ICreateInviteUserDTO';
 import User from '../infra/typeorm/entities/User';
-import IInviteUsersRepository from '../repositories/IInviteUsersRepository';
-import IUserTokensRepository from '../repositories/IUserTokensRepository';
+import IUsersRepository from '../repositories/IUsersRepository';
 
 @injectable()
 class CreateInviteUserService {
   constructor(
-    @inject('InviteUsersRepository')
-    private inviteUsersRepository: IInviteUsersRepository,
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
 
     @inject('MailProvider')
     private mailProvider: IMailProvider,
-
-    @inject('UserTokensRepository')
-    private userTokensRepository: IUserTokensRepository,
   ) {}
 
   public async execute({
@@ -27,7 +23,7 @@ class CreateInviteUserService {
     email,
     type,
   }: ICreateInviteUserDTO): Promise<User> {
-    const user = await this.inviteUsersRepository.findByEmail(email);
+    const user = await this.usersRepository.findByEmail(email);
 
     if (user) {
       throw new AppError('This email is already in use.', 401);
@@ -40,13 +36,7 @@ class CreateInviteUserService {
       throw new AppError('That user type does not exist.', 403);
     }
 
-    const inviteUser = await this.inviteUsersRepository.create({
-      name,
-      email,
-      type,
-    });
-
-    const { token } = await this.userTokensRepository.generate(inviteUser.id);
+    const inviteUser = await this.usersRepository.create({ name, email, type });
 
     const inviteUserTemplate = path.resolve(
       __dirname,
@@ -65,7 +55,7 @@ class CreateInviteUserService {
         file: inviteUserTemplate,
         variables: {
           name: inviteUser.name,
-          link: `${process.env.APP_WEB_URL}/invite/${token}`,
+          link: `${process.env.APP_WEB_URL}/invite/${email}`,
         },
       },
     });

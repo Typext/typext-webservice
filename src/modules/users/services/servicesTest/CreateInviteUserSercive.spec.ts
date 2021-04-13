@@ -1,26 +1,22 @@
 import AppError from '@shared/errors/AppError';
 
-import FakeInviteUserRepository from '@modules/users/repositories/fakes/FakeInviteUserRepository';
-import FakerUserTokensRepository from '@modules/users/repositories/fakes/FakeUserTokensRepository';
+import FakeUserRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeMailProvider from '@shared/container/providers/MailProvider/fakes/FakeMailProvider';
 
 import CreateInviteUserService from '../CreateInviteUserService';
 
-let fakeInviteUserRepository: FakeInviteUserRepository;
-let fakerUserTokensRepository: FakerUserTokensRepository;
+let fakeUserRepository: FakeUserRepository;
 let fakeMailProvider: FakeMailProvider;
 let createInviteUser: CreateInviteUserService;
 
 describe('InviteUser', () => {
   beforeEach(() => {
-    fakeInviteUserRepository = new FakeInviteUserRepository();
-    fakerUserTokensRepository = new FakerUserTokensRepository();
+    fakeUserRepository = new FakeUserRepository();
     fakeMailProvider = new FakeMailProvider();
 
     createInviteUser = new CreateInviteUserService(
-      fakeInviteUserRepository,
+      fakeUserRepository,
       fakeMailProvider,
-      fakerUserTokensRepository,
     );
   });
 

@@ -2,6 +2,7 @@ import { uuid } from 'uuidv4';
 
 import User from '@modules/users/infra/typeorm/entities/User';
 import IUsersRpository from '@modules/users/repositories/IUsersRepository';
+import ICreateInviteUserDTO from '@modules/users/dtos/ICreateInviteUserDTO';
 
 class FakeUsersRepository implements IUsersRpository {
   private users: User[] = [];
@@ -14,18 +15,32 @@ class FakeUsersRepository implements IUsersRpository {
     return this.users.find(user => user.email === email);
   }
 
-  async create(user: User): Promise<User> {
+  async findAll(): Promise<User[]> {
+    return this.users;
+  }
+
+  public async create({
+    name,
+    email,
+    type,
+  }: ICreateInviteUserDTO): Promise<User> {
+    const user = new User();
+
+    Object.assign(user, { id: uuid(), name, email, type });
+
+    this.users.push(user);
+
+    return user;
+  }
+
+  async register(user: User): Promise<User> {
     const createUser = new User();
 
-    Object.assign(createUser, { id: uuid(), user });
+    Object.assign(createUser, { user });
 
     this.users.push(createUser);
 
     return createUser;
-  }
-
-  async findAll(): Promise<User[]> {
-    return this.users;
   }
 
   async save(user: User): Promise<User> {
@@ -34,6 +49,14 @@ class FakeUsersRepository implements IUsersRpository {
     this.users[findIndex] = user;
 
     return user;
+  }
+
+  async delete(user: User): Promise<User> {
+    return user;
+  }
+
+  async countByType(type: string): Promise<number> {
+    return 1;
   }
 }
 

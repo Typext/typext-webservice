@@ -20,11 +20,11 @@ export default class CompaniesController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const { token } = request.body;
+    const { email } = request.body;
 
     const updateUserToken = container.resolve(UpdateInviteUserTokenService);
 
-    await updateUserToken.execute({ token });
+    await updateUserToken.execute(email);
 
     return response.json({ message: 'New invitation email has been sent.' });
   }

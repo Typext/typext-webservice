@@ -7,7 +7,6 @@ import AppError from '@shared/errors/AppError';
 
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 import IUsersRepository from '../repositories/IUsersRepository';
-import IUserTokensRepository from '../repositories/IUserTokensRepository';
 
 @injectable()
 class CreateUserService {
@@ -17,13 +16,10 @@ class CreateUserService {
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
-
-    @inject('UserTokensRepository')
-    private userTokensRepository: IUserTokensRepository,
   ) {}
 
   public async execute({
-    token,
+    email,
     name,
     password,
     office,
@@ -31,24 +27,18 @@ class CreateUserService {
     company,
     phone,
   }: ICreateUserDTO): Promise<User> {
-    const userToken = await this.userTokensRepository.findByToken(token);
-
-    if (!userToken) {
-      throw new AppError('User token does not exists.', 404);
-    }
-
-    const tokenUpdatedAt = userToken.updated_at;
-
-    const compareDate = addHours(tokenUpdatedAt, 2);
-
-    if (isAfter(Date.now(), compareDate)) {
-      throw new AppError('Token expired.', 401);
-    }
-
-    const user = await this.usersRepository.findById(userToken.user_id);
+    const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
       throw new AppError('User does not exists.', 404);
+    }
+
+    const invitationTime = user.updated_at;
+
+    const compareDate = addHours(invitationTime, 2);
+
+    if (isAfter(Date.now(), compareDate)) {
+      throw new AppError('Token expired.', 401);
     }
 
     user.active = true;
@@ -65,7 +55,7 @@ class CreateUserService {
       active: true,
     });
 
-    await this.usersRepository.create(user);
+    await this.usersRepository.register(user);
 
     return user;
   }
