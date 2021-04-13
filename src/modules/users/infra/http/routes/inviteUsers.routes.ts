@@ -23,7 +23,7 @@ inviteUsersRouter.put(
   '/update',
   celebrate({
     [Segments.BODY]: {
-      token: Joi.string().uuid().required(),
+      email: Joi.string().email().required(),
     },
   }),
   inviteUsersController.update,
