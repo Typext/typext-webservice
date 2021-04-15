@@ -16,7 +16,7 @@ let inviteUser: CreateInviteUserService;
 let createUser: CreateUserService;
 let showUser: ShowUserService;
 
-describe('ShowUser', () => {
+describe('Show User', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeHashProvider = new FakeHashProvider();
