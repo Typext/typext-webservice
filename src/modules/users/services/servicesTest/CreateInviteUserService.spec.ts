@@ -20,37 +20,37 @@ describe('InviteUser', () => {
     );
   });
 
-  it('Should be able to invite a new user', async () => {
+  it('should be able to invite a new user', async () => {
     const user = await createInviteUser.execute({
       name: 'John Doe',
-      email: 'johndoe@email.com',
+      email: 'johndoe@example.com',
       type: 'Usuário',
     });
 
     expect(user).toHaveProperty('id');
   });
 
-  it('Should not be able to invite a new user a registered email', async () => {
+  it('should not be able to invite a new user a registered email', async () => {
     await createInviteUser.execute({
       name: 'John Doe',
-      email: 'johndoe@email.com',
+      email: 'johndoe@example.com',
       type: 'Usuário',
     });
 
     await expect(
       createInviteUser.execute({
         name: 'John Doe',
-        email: 'johndoe@email.com',
+        email: 'johndoe@example.com',
         type: 'Usuário',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('Should not be able to invite a new user with a wrong type', async () => {
+  it('should not be able to invite a new user with a wrong type', async () => {
     await expect(
       createInviteUser.execute({
         name: 'John Doe',
-        email: 'johndoe@email.com',
+        email: 'johndoe@example.com',
         type: 'Vendedor',
       }),
     ).rejects.toBeInstanceOf(AppError);
