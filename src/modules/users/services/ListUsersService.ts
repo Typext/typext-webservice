@@ -20,8 +20,9 @@ class ListUsersService {
       );
     }
 
-    const repository = this.usersRepository.findAll();
-    return repository;
+    const users = await this.usersRepository.findAll();
+
+    return users;
   }
 }
 

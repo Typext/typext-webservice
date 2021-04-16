@@ -21,9 +21,12 @@ export default class UsersController {
   }
 
   public async index(request: Request, response: Response): Promise<Response> {
-    const listUserService = container.resolve(ListUsersService);
     const userType = request.user.type;
+
+    const listUserService = container.resolve(ListUsersService);
+
     const usersList = await listUserService.execute(userType);
+
     return response.json(classToClass(usersList));
   }
 

@@ -1,10 +1,11 @@
 import { uuid } from 'uuidv4';
 
 import User from '@modules/users/infra/typeorm/entities/User';
-import IUsersRpository from '@modules/users/repositories/IUsersRepository';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICreateInviteUserDTO from '@modules/users/dtos/ICreateInviteUserDTO';
+import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 
-class FakeUsersRepository implements IUsersRpository {
+class FakeUsersRepository implements IUsersRepository {
   private users: User[] = [];
 
   async findById(id: string): Promise<User | undefined> {
@@ -15,7 +16,7 @@ class FakeUsersRepository implements IUsersRpository {
     return this.users.find(user => user.email === email);
   }
 
-  async findAll(): Promise<User[]> {
+  public async findAll(): Promise<User[]> {
     return this.users;
   }
 
@@ -39,14 +40,30 @@ class FakeUsersRepository implements IUsersRpository {
     return user;
   }
 
-  async register(user: User): Promise<User> {
-    const createUser = new User();
+  async register({
+    name,
+    email,
+    password,
+    office,
+    area,
+    phone,
+    company,
+  }: ICreateUserDTO): Promise<User> {
+    const user = new User();
 
-    Object.assign(createUser, { user });
+    Object.assign(user, {
+      name,
+      email,
+      password,
+      office,
+      area,
+      phone,
+      company,
+    });
 
-    this.users.push(createUser);
+    this.users.push(user);
 
-    return createUser;
+    return user;
   }
 
   async save(user: User): Promise<User> {
