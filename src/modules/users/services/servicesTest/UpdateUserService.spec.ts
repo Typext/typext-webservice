@@ -91,8 +91,6 @@ describe('UpdateUser', () => {
       phone: '(11)98888-8888',
     });
 
-    console.log(user);
-
     const updatedUser = await updateUser.execute({
       userId: user.id,
       name: 'John Tre',
@@ -103,8 +101,6 @@ describe('UpdateUser', () => {
       company: 'Your Company',
       phone: '(11)98888-8888',
     });
-
-    console.log(updatedUser);
 
     expect(updatedUser.password).toBe('123123');
   });
