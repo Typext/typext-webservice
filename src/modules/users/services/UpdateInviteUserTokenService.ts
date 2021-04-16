@@ -25,8 +25,6 @@ class UpdateInviteUserTokenService {
 
     user.updated_at = new Date();
 
-    // await this.userTokensRepository.update(userToken);
-
     const inviteUserTemplate = path.resolve(
       __dirname,
       '..',
