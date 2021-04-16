@@ -4,7 +4,7 @@ import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHa
 import FakeMailProvider from '@shared/container/providers/MailProvider/fakes/FakeMailProvider';
 import FakeUsersRepository from '../../repositories/fakes/FakeUsersRepository';
 
-import UpdateUserTypeService from '../UpdateUserTypeService';
+import ListUsersService from '../ListUsersService';
 import CreateInviteUserService from '../CreateInviteUserService';
 import CreateUserService from '../CreateUserService';
 
@@ -14,9 +14,9 @@ let fakeMailProvider: FakeMailProvider;
 
 let inviteUser: CreateInviteUserService;
 let createUser: CreateUserService;
-let updateUserType: UpdateUserTypeService;
+let listUsers: ListUsersService;
 
-describe('UpdateUserType', () => {
+describe('ListUsers', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeHashProvider = new FakeHashProvider();
@@ -29,53 +29,35 @@ describe('UpdateUserType', () => {
 
     createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
 
-    updateUserType = new UpdateUserTypeService(fakeUsersRepository);
+    listUsers = new ListUsersService(fakeUsersRepository);
   });
 
-  it("should be able for the administrator user to update the user's permission level", async () => {
-    await inviteUser.execute({
-      name: 'John',
-      email: 'johndoe@example.com',
-      type: 'Usuário',
-    });
-
-    const user = await createUser.execute({
-      email: 'johndoe@example.com',
+  it('should be able for the administrator user to list all users', async () => {
+    const user1 = await inviteUser.execute({
       name: 'John Doe',
-      password: '123456',
-      office: 'DEV',
-      area: 'TI',
-      company: 'Typext',
-      phone: '(12)99999-9999',
+      email: 'johndoe@example.com',
+      type: 'Usuário',
     });
 
-    const updatedUser = await updateUserType.execute({
-      userId: user.id,
-      userType: 'Admin',
-      type: 'Gerente',
+    const user2 = await inviteUser.execute({
+      name: 'John Tre',
+      email: 'johntre@example.com',
+      type: 'Usuário',
     });
 
-    expect(updatedUser.type).toBe('Gerente');
+    const allUsers = await listUsers.execute('Admin');
+
+    expect(allUsers).toEqual([user1, user2]);
   });
 
-  it('should not be able to update the permission level from non-existing user', async () => {
-    await expect(
-      updateUserType.execute({
-        userId: 'non-existing-user-id',
-        userType: 'Admin',
-        type: 'Gerente',
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
-
-  it("should not be possible for a user who is not an administrator to update the user's permission level", async () => {
+  it('should not be possible for a user who is not an administrator to list all users', async () => {
     await inviteUser.execute({
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',
     });
 
-    const user = await createUser.execute({
+    await createUser.execute({
       email: 'johndoe@example.com',
       name: 'John Tre',
       password: '123456',
@@ -85,12 +67,6 @@ describe('UpdateUserType', () => {
       phone: '(11)98888-8888',
     });
 
-    await expect(
-      updateUserType.execute({
-        userId: user.id,
-        userType: 'Gerente',
-        type: 'Gerente',
-      }),
-    ).rejects.toBeInstanceOf(AppError);
+    await expect(listUsers.execute('Gerente')).rejects.toBeInstanceOf(AppError);
   });
 });
