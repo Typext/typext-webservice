@@ -16,7 +16,7 @@ let inviteUser: CreateInviteUserService;
 let createUser: CreateUserService;
 let updateUserType: UpdateUserTypeService;
 
-describe('UpdateUser', () => {
+describe('UpdateUserType', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeHashProvider = new FakeHashProvider();
@@ -93,65 +93,4 @@ describe('UpdateUser', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
-
-  // it('should not be able to update the password without old password', async () => {
-  //   await inviteUser.execute({
-  //     name: 'John',
-  //     email: 'johndoe@example.com',
-  //     type: 'Usuário',
-  //   });
-
-  //   const user = await createUser.execute({
-  //     email: 'johndoe@example.com',
-  //     name: 'John Tre',
-  //     password: '123456',
-  //     office: 'PO',
-  //     area: 'TI',
-  //     company: 'Your Company',
-  //     phone: '(11)98888-8888',
-  //   });
-
-  //   await expect(
-  //     updateUserType.execute({
-  //       userId: user.id,
-  //       name: 'John Tre',
-  //       password: '123123',
-  //       office: 'PO',
-  //       area: 'TI',
-  //       company: 'Your Company',
-  //       phone: '(11)98888-8888',
-  //     }),
-  //   ).rejects.toBeInstanceOf(AppError);
-  // });
-
-  // it('should not be able to update the password with wrong old password', async () => {
-  //   await inviteUser.execute({
-  //     name: 'John',
-  //     email: 'johndoe@example.com',
-  //     type: 'Usuário',
-  //   });
-
-  //   const user = await createUser.execute({
-  //     email: 'johndoe@example.com',
-  //     name: 'John Tre',
-  //     password: '123456',
-  //     office: 'PO',
-  //     area: 'TI',
-  //     company: 'Your Company',
-  //     phone: '(11)98888-8888',
-  //   });
-
-  //   await expect(
-  //     updateUserType.execute({
-  //       userId: user.id,
-  //       name: 'John Tre',
-  //       old_password: 'wrong-old-password',
-  //       password: '123123',
-  //       office: 'PO',
-  //       area: 'TI',
-  //       company: 'Your Company',
-  //       phone: '(11)98888-8888',
-  //     }),
-  //   ).rejects.toBeInstanceOf(AppError);
-  // });
 });
