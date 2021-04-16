@@ -6,6 +6,7 @@ import FakeMailProvider from '@shared/container/providers/MailProvider/fakes/Fak
 
 import CreateInviteUserService from '../CreateInviteUserService';
 import CreateUserService from '../CreateUserService';
+import AuthenticateUserService from '../AuthenticateUserService';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
@@ -13,6 +14,7 @@ let fakeMailProvider: FakeMailProvider;
 
 let inviteUser: CreateInviteUserService;
 let createUser: CreateUserService;
+let authenticateUser: AuthenticateUserService;
 
 describe('CreateUser', () => {
   beforeEach(() => {
@@ -26,67 +28,69 @@ describe('CreateUser', () => {
     );
 
     createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
+
+    authenticateUser = new AuthenticateUserService(
+      fakeUsersRepository,
+      fakeHashProvider,
+    );
   });
 
-  it('should be able to create a new user', async () => {
+  it('should be able to authenticate a user', async () => {
     await inviteUser.execute({
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',
     });
 
-    const register = {
+    const user = await createUser.execute({
       email: 'johndoe@example.com',
       name: 'John Doe',
       password: '123456',
-      office: 'Mr',
+      office: 'DEV',
       area: 'TI',
       company: 'Typext',
       phone: '(12)99999-9999',
-    };
+    });
 
-    const user = await createUser.execute(register);
-
-    expect(user.active).toBe(true);
-    expect(user).toHaveProperty('id');
-  });
-
-  it('should not be able to create without an invitation', async () => {
-    const register = {
+    const response = await authenticateUser.execute({
       email: 'johndoe@example.com',
-      name: 'John Doe',
       password: '123456',
-      office: 'Mr',
-      area: 'TI',
-      company: 'Typext',
-      phone: '(12)99999-9999',
-    };
+    });
 
-    await expect(createUser.execute(register)).rejects.toBeInstanceOf(AppError);
+    expect(response).toHaveProperty('token');
+    expect(response.user).toEqual(user);
   });
 
-  it('should not be able to create user if invitation were more than 2 hours', async () => {
-    await inviteUser.execute({
-      name: 'John',
-      email: 'johndoe@example.com',
-      type: 'Usuário',
-    });
-
-    jest.spyOn(Date, 'now').mockImplementationOnce(() => {
-      const customDate = new Date();
-
-      return customDate.setHours(customDate.getHours() + 3);
-    });
-
-    await expect(
-      createUser.execute({
+  it('should not be able to authenticate with non existing user', async () => {
+    expect(
+      authenticateUser.execute({
         email: 'johndoe@example.com',
-        name: 'John Doe',
         password: '123456',
-        office: 'Mr',
-        area: 'TI',
-        company: 'Typext',
-        phone: '(12)99999-9999',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to authenticate with wrong password', async () => {
+    await inviteUser.execute({
+      name: 'John',
+      email: 'johndoe@example.com',
+      type: 'Usuário',
+    });
+
+    await createUser.execute({
+      email: 'johndoe@example.com',
+      name: 'John Doe',
+      password: '123456',
+      office: 'DEV',
+      area: 'TI',
+      company: 'Typext',
+      phone: '(12)99999-9999',
+    });
+
+    expect(
+      authenticateUser.execute({
+        email: 'johndoe@example.com',
+        password: 'wrong-password',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
