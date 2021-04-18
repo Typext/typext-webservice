@@ -34,7 +34,7 @@ class User {
   @Column()
   phone: string;
 
-  @Column()
+  @Column({ unique: false, nullable: true })
   type: string;
 
   @Column()
