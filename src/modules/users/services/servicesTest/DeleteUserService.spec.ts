@@ -33,13 +33,29 @@ describe('DeleteUser', () => {
   });
 
   it('should be able for the administrator user to delete an user', async () => {
+    const user = await inviteUser.execute({
+      name: 'John',
+      email: 'admin@rentx.com',
+      type: 'Admin',
+    });
+
+    await createUser.execute({
+      email: 'admin@rentx.com',
+      name: 'John Doe',
+      password: '123456',
+      office: 'Mr',
+      area: 'TI',
+      company: 'Typext',
+      phone: '(12)99999-9999',
+    });
+
     await inviteUser.execute({
       name: 'John',
       email: 'johndoe@example.com',
-      type: 'Usuário',
+      type: 'Admin',
     });
 
-    const user = await createUser.execute({
+    await createUser.execute({
       email: 'johndoe@example.com',
       name: 'John Doe',
       password: '123456',
