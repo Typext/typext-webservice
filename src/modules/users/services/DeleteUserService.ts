@@ -16,7 +16,7 @@ export default class DeleteUserService {
   public async execute({
     deletedUserId,
     userType,
-  }: IDeleteUserDTO): Promise<User> {
+  }: IDeleteUserDTO): Promise<void> {
     if (userType !== 'Admin') {
       throw new AppError('Permission denied', 401);
     }
@@ -39,7 +39,6 @@ export default class DeleteUserService {
       );
     }
 
-    this.usersRepository.delete(foundUser);
-    return foundUser;
+    await this.usersRepository.delete(foundUser);
   }
 }

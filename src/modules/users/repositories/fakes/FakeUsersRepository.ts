@@ -76,10 +76,12 @@ class FakeUsersRepository implements IUsersRepository {
     return user;
   }
 
+
   async delete(user: User): Promise<User> {
     const contAdminUsers = await this.countByType('Admin');
 
     if (contAdminUsers <= 1) {
+
       throw new AppError(
         'Permission denied: you cannot remove the last admin from the system',
         403,
@@ -87,8 +89,6 @@ class FakeUsersRepository implements IUsersRepository {
     }
 
     this.users.splice(this.users.indexOf(user), 1);
-
-    return user;
   }
 
   async countByType(type: string): Promise<number> {

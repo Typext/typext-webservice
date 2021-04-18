@@ -8,6 +8,6 @@ export default interface IUsersRepository {
   create(user: ICreateInviteUserDTO): Promise<User>;
   register(user: User): Promise<User>;
   save(user: User): Promise<User>;
-  delete(user: User): Promise<User>;
+  delete(user: User): Promise<void>;
   countByType(type: string): Promise<number>;
 }
