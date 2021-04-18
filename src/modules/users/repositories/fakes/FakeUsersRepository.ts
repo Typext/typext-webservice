@@ -77,15 +77,9 @@ class FakeUsersRepository implements IUsersRepository {
   }
 
   async delete(user: User): Promise<User> {
-    let contAdminUsers = 0;
+    const contAdminUsers = await this.countByType('Admin');
 
-    this.users.forEach(userInterator => {
-      if (userInterator.type === 'Admin') {
-        contAdminUsers += 1;
-      }
-    });
-
-    if (contAdminUsers === 1) {
+    if (contAdminUsers <= 1) {
       throw new AppError(
         'Permission denied: you cannot remove the last admin from the system',
         403,
@@ -98,7 +92,13 @@ class FakeUsersRepository implements IUsersRepository {
   }
 
   async countByType(type: string): Promise<number> {
-    return 1;
+    let cont = 0;
+    this.users.forEach(userInterator => {
+      if (userInterator.type === type) {
+        cont += 1;
+      }
+    });
+    return cont;
   }
 }
 

@@ -32,7 +32,7 @@ export default class DeleteUserService {
 
     const adminsUsersCont = await this.usersRepository.countByType(userType);
     console.log(`Número de usuários ${adminsUsersCont}`);
-    if (adminsUsersCont <= 0) {
+    if (adminsUsersCont <= 1) {
       throw new AppError(
         'Permission denied: you cannot remove the last admin from the system',
         403,
