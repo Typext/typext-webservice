@@ -44,28 +44,12 @@ class UsersRepository implements IUsersRepository {
     return user;
   }
 
-  public async register({
-    name,
-    email,
-    password,
-    office,
-    area,
-    phone,
-    company,
-  }: ICreateUserDTO): Promise<User> {
-    const user = this.ormRepository.create({
-      name,
-      email,
-      password,
-      office,
-      area,
-      phone,
-      company,
-    });
+  public async register(user: User): Promise<User> {
+    const createUser = this.ormRepository.create(user);
 
     await this.ormRepository.save(user);
 
-    return user;
+    return createUser;
   }
 
   public async save(user: User): Promise<User> {

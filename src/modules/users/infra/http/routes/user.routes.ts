@@ -39,12 +39,12 @@ usersRouter.put(
       password: Joi.string().when('old_password', {
         is: null,
         then: Joi.optional(),
-        otherwise: Joi.string().required(),
+        otherwise: Joi.string(),
       }),
       password_confirmation: Joi.string().when('password', {
         is: null,
         then: Joi.optional(),
-        otherwise: Joi.string().required().valid(Joi.ref('password')),
+        otherwise: Joi.string().valid(Joi.ref('password')),
       }),
       office: Joi.string(),
       area: Joi.string(),
