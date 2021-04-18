@@ -54,7 +54,7 @@ describe('DeleteUser', () => {
       userType: 'Admin',
     });
 
-    expect(deletedUser).not.toHaveProperty('id');
+    expect(deletedUser).toEqual(undefined);
   });
 
   it('should not be able to delete a non-existing user', async () => {
@@ -92,9 +92,25 @@ describe('DeleteUser', () => {
   });
 
   it('should not be able to delete a user if he is the last administrator user', async () => {
+    await inviteUser.execute({
+      name: 'John',
+      email: 'johndoe@example.com',
+      type: 'Admin',
+    });
+
+    const user = await createUser.execute({
+      email: 'johndoe@example.com',
+      name: 'John Tre',
+      password: '123456',
+      office: 'PO',
+      area: 'TI',
+      company: 'Your Company',
+      phone: '(11)98888-8888',
+    });
+
     await expect(
       deleteUser.execute({
-        deletedUserId: 'non-existing-user-id',
+        deletedUserId: user.id,
         userType: 'Admin',
       }),
     ).rejects.toBeInstanceOf(AppError);

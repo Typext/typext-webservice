@@ -76,11 +76,11 @@ class FakeUsersRepository implements IUsersRepository {
     return user;
   }
 
-  async delete(user: User): Promise<User> {
+  async delete(user: User): Promise<void> {
     let contAdminUsers = 0;
 
-    this.users.forEach(userInterator => {
-      if (userInterator.type === 'Admin') {
+    this.users.forEach(userIterator => {
+      if (userIterator.type === 'Admin') {
         contAdminUsers += 1;
       }
     });
@@ -93,8 +93,6 @@ class FakeUsersRepository implements IUsersRepository {
     }
 
     this.users.splice(this.users.indexOf(user), 1);
-
-    return user;
   }
 
   async countByType(type: string): Promise<number> {
