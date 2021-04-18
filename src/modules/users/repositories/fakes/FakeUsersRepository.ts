@@ -79,7 +79,12 @@ class FakeUsersRepository implements IUsersRepository {
   }
 
   async countByType(type: string): Promise<number> {
-    return 1;
+    const countUserType = this.users.reduce(
+      (users, user) => (user.type >= 0 ? (type -= 1) : type),
+      0,
+    );
+
+    return countUserType;
   }
 }
 
