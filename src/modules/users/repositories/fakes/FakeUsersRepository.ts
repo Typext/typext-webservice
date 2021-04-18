@@ -4,7 +4,6 @@ import User from '@modules/users/infra/typeorm/entities/User';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICreateInviteUserDTO from '@modules/users/dtos/ICreateInviteUserDTO';
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import AppError from '@shared/errors/AppError';
 
 class FakeUsersRepository implements IUsersRepository {

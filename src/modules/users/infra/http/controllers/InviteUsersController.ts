@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 import CreateInviteUserService from '@modules/users/services/CreateInviteUserService';
 import UpdateInviteUserTokenService from '@modules/users/services/UpdateInviteUserTokenService';
 
-export default class CompaniesController {
+export default class InviteUserController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { name, email, type } = request.body;
 
