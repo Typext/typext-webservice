@@ -3,6 +3,7 @@ import AppError from '@shared/errors/AppError';
 import FakeMailProvider from '@shared/container/providers/MailProvider/fakes/FakeMailProvider';
 import FakeUsersRepository from '../../repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '../../providers/HashProvider/fakes/FakeHashProvider';
+import FakeUserTokensRepository from '../../repositories/fakes/FakeUserTokensRepository';
 
 import ResetPasswordService from '../ResetPasswordService';
 import CreateInviteUserService from '../CreateInviteUserService';
@@ -11,6 +12,7 @@ import CreateUserService from '../CreateUserService';
 let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
 let fakeMailProvider: FakeMailProvider;
+let fakeUserTokensRepository: FakeUserTokensRepository;
 
 let inviteUser: CreateInviteUserService;
 let createUser: CreateUserService;
@@ -21,6 +23,7 @@ describe('ResetPassword', () => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeHashProvider = new FakeHashProvider();
     fakeMailProvider = new FakeMailProvider();
+    fakeUserTokensRepository = new FakeUserTokensRepository();
 
     inviteUser = new CreateInviteUserService(
       fakeUsersRepository,
@@ -31,6 +34,7 @@ describe('ResetPassword', () => {
 
     resetPassword = new ResetPasswordService(
       fakeUsersRepository,
+      fakeUserTokensRepository,
       fakeHashProvider,
     );
   });
@@ -52,11 +56,13 @@ describe('ResetPassword', () => {
       phone: '(12)99999-9999',
     });
 
+    const { token } = await fakeUserTokensRepository.generate(user.id);
+
     const generateHash = jest.spyOn(fakeHashProvider, 'generateHash');
 
     await resetPassword.execute({
       password: '123123',
-      email: user.email,
+      token,
     });
 
     const updatedUser = await fakeUsersRepository.findById(user.id);
@@ -65,11 +71,24 @@ describe('ResetPassword', () => {
     expect(updatedUser?.password).toBe('123123');
   });
 
-  it('should not be able to reset the password with non-existing user', async () => {
+  it('should not be able to reset the password with non-existing token', async () => {
     await expect(
       resetPassword.execute({
         password: '123123',
-        email: 'non-existing user',
+        token: 'non-existing-token',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to reset the password with non-existing user', async () => {
+    const { token } = await fakeUserTokensRepository.generate(
+      'non-existing-user',
+    );
+
+    await expect(
+      resetPassword.execute({
+        password: '123123',
+        token,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -91,6 +110,8 @@ describe('ResetPassword', () => {
       phone: '(12)99999-9999',
     });
 
+    const { token } = await fakeUserTokensRepository.generate(user.id);
+
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
       const customDate = new Date();
 
@@ -100,7 +121,7 @@ describe('ResetPassword', () => {
     await expect(
       resetPassword.execute({
         password: '123123',
-        email: user.email,
+        token,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
