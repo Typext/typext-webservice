@@ -61,6 +61,9 @@
         "tags": ["Invite Users"],
         "summary": "Atualização da data de expiração do token",
         "description": "Caso o token do usuário expire, essa rota deve ser chamada para que a data seja atualizada e um novo e-mail de convite seja enviado ao usuário.",
+        "security": {
+          "Bearer": []
+        },
         "requestBody": {
           "content": {
             "application/json": {
@@ -278,7 +281,7 @@
 
       "put": {
         "tags": ["Users"],
-        "summary": "Atualização das informações do usuário",
+        "summary": "Atualização das informações do usuário logado",
         "description": "Essa rota permite atualizar informações do usuário logado.",
         "requestBody": {
           "content": {
@@ -381,6 +384,37 @@
           },
           "404": {
             "description": "User not found"
+          }
+        }
+      },
+
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Exclusão de um usuário",
+        "description": "Essa rota permite que o usuário Administrador exclua qualquer usuário, exceto se for o último usuário do tipo Administrador. O ID deve estar contido no parâmetro da URL.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do usuário que deseja excluir",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User has been deleted"
+          },
+          "401": {
+            "description": "Permission denied"
+          },
+          "403": {
+            "description": "Permission denied: you cannot remove the last admin from the system"
+          },
+          "404": {
+            "description": "The userId selected was not found or is invalid"
           }
         }
       }

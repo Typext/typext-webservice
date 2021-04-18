@@ -18,20 +18,24 @@ export default class DeleteUserService {
     userType,
   }: IDeleteUserDTO): Promise<User> {
     if (userType !== 'Admin') {
-      throw new AppError('Permission denied');
+      throw new AppError('Permission denied', 401);
     }
 
     const foundUser = await this.usersRepository.findById(deletedUserId);
 
     if (!foundUser) {
-      throw new AppError('The userId selected was not found or is invalid');
+      throw new AppError(
+        'The userId selected was not found or is invalid',
+        404,
+      );
     }
 
     const adminsUsersCont = await this.usersRepository.countByType(userType);
     console.log(`Número de usuários ${adminsUsersCont}`);
     if (adminsUsersCont <= 0) {
-      throw new Error(
+      throw new AppError(
         'Permission denied: you cannot remove the last admin from the system',
+        403,
       );
     }
 

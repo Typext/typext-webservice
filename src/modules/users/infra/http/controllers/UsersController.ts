@@ -101,7 +101,7 @@ export default class UsersController {
     });
 
     return response.json({
-      message: `User ${deletedUserId} deleted`,
+      message: 'User has been deleted',
     });
   }
 }
