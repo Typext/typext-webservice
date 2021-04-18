@@ -56,9 +56,8 @@ class UsersRepository implements IUsersRepository {
     return this.ormRepository.save(user);
   }
 
-  public async delete(user: User): Promise<User> {
+  public async delete(user: User): Promise<void> {
     await this.ormRepository.delete(user.id);
-    return user;
   }
 
   public async countByType(type: string): Promise<number> {
