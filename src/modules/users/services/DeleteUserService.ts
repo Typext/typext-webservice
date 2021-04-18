@@ -1,5 +1,4 @@
 import IDeleteUserDTO from '@modules/users/dtos/IDeleteUserDTO';
-import User from '@modules/users/infra/typeorm/entities/User';
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';

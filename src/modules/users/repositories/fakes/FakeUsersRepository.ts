@@ -4,7 +4,6 @@ import User from '@modules/users/infra/typeorm/entities/User';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICreateInviteUserDTO from '@modules/users/dtos/ICreateInviteUserDTO';
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import AppError from '@shared/errors/AppError';
 
 class FakeUsersRepository implements IUsersRepository {
@@ -76,12 +75,10 @@ class FakeUsersRepository implements IUsersRepository {
     return user;
   }
 
-
-  async delete(user: User): Promise<User> {
+  async delete(user: User): Promise<void> {
     const contAdminUsers = await this.countByType('Admin');
 
     if (contAdminUsers <= 1) {
-
       throw new AppError(
         'Permission denied: you cannot remove the last admin from the system',
         403,
