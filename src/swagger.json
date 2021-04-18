@@ -13,7 +13,7 @@
       "post": {
         "tags": ["Invite Users"],
         "summary": "Envio de convite para novos usuários acessarem a plataforma",
-        "description": "Envio do link com rastreabilidade de um token para convite por e-mail.",
+        "description": "Envio do link para convite por e-mail.",
         "security": {
           "Bearer": []
         },
@@ -59,8 +59,8 @@
     "/invite-users/update": {
       "put": {
         "tags": ["Invite Users"],
-        "summary": "Atualização da data de expiração do token",
-        "description": "Caso o token do usuário expire, essa rota deve ser chamada para que a data seja atualizada e um novo e-mail de convite seja enviado ao usuário.",
+        "summary": "Reenvio do e-mail de convite de usuário",
+        "description": "Caso o convite do usuário expire, essa rota deve ser chamada para que a data seja atualizada e um novo e-mail de convite seja enviado ao usuário.",
         "security": {
           "Bearer": []
         },
@@ -75,7 +75,7 @@
                   }
                 },
                 "example": {
-                  "token": "5a3df27f-833b-4fb6-8601-74564ceb9cc7"
+                  "email": "johndoe@example.com"
                 }
               }
             }
@@ -132,8 +132,8 @@
                   }
                 },
                 "example": {
-                  "token": "11310b58-a402-4c56-a5a8-e6e1bdcb824a",
                   "name": "John Doe",
+                  "email": "johndoe@example.com",
                   "password": "123456",
                   "password_confirmation": "123456",
                   "office": "CTO",
@@ -464,7 +464,7 @@
       "post": {
         "tags": ["Forgot Password"],
         "summary": "Envio de e-mail de recuperação de senha",
-        "description": "O e-mail enviado ao usuário contará com um link de recuperação de senha, que conterá um token para que seja autorizado a recuperar sua senha.",
+        "description": "O e-mail enviado ao usuário contará com um link de recuperação de senha, para que seja autorizado a recuperar sua senha.",
         "security": {
           "Bearer": []
         },
@@ -510,7 +510,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "token": {
+                  "email": {
                     "type": "string"
                   },
                   "password": {
@@ -521,7 +521,7 @@
                   }
                 },
                 "example": {
-                  "token": "5a3df27f-833b-4fb6-8601-74564ceb9cc7",
+                  "email": "johndoe@example.com",
                   "password": "567890",
                   "password_confirmation": "567890"
                 }
