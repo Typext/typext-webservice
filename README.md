@@ -127,11 +127,11 @@ npm run seed:admin
 yarn seed:admin
 ```
 
-Esse usuário tem os valores defalt: 
+> Esse usuário tem os valores defalt: 
 
-email: **admin@typext.com.br**
+> email: **admin@typext.com.br**
 
-password: **admin**
+> password: **admin**
 
 
 - Neste momento o servidor pode ser iniciado com o comando:
