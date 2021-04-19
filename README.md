@@ -117,6 +117,23 @@ yarn typeorm migration:run
 npm typeorm migration:run
 ```
 
+- Para a criação do primeiro usuário será necessário rodar o comando:
+
+```
+npm run seed:admin 
+
+# ou 
+
+yarn seed:admin
+```
+
+Esse usuário tem os valores defalt: 
+
+email: **admin@typext.com.br**
+
+password: **admin**
+
+
 - Neste momento o servidor pode ser iniciado com o comando:
 ```bash
 yarn dev:server
