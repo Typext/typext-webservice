@@ -12,7 +12,7 @@ async function create() {
 
   await connection.query(
     `INSERT INTO USERS(id, name, email, password, type, active, created_at)
-      values('${id}', 'Administrador', 'admin@typext.com', '${password}', 'Admin', true, 'now()')
+      values('${id}', 'Administrador', 'admin@typext.com.br', '${password}', 'Admin', true, 'now()')
     `,
   );
 

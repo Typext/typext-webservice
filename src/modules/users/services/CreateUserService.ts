@@ -55,8 +55,6 @@ class CreateUserService {
       active: true,
     });
 
-    console.log(user.type);
-
     await this.usersRepository.register(user);
 
     return user;
