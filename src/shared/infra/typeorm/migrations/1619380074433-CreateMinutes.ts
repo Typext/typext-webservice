@@ -19,11 +19,11 @@ export default class CreateMinutes1619380074433 implements MigrationInterface {
           },
           {
             name: 'file_id',
-            type: 'uuid',
+            type: 'int',
           },
           {
             name: 'start_date',
-            type: 'timestamp',
+            type: 'timestamp with time zone',
           },
           {
             name: 'minute_number',
@@ -38,12 +38,12 @@ export default class CreateMinutes1619380074433 implements MigrationInterface {
             type: 'varchar',
           },
           {
-            name: 'schedule',
-            type: 'varchar',
+            name: 'schedules',
+            type: 'text array',
           },
           {
             name: 'areas',
-            type: 'varchar',
+            type: 'text array',
           },
           {
             name: 'status',
@@ -74,6 +74,7 @@ export default class CreateMinutes1619380074433 implements MigrationInterface {
             referencedColumnNames: ['id'],
             columnNames: ['file_id'],
             onDelete: 'SET NULL',
+            onUpdate: 'CASCADE',
           },
         ],
       }),
