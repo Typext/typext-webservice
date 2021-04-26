@@ -16,6 +16,7 @@ export default class CreateMinutes1619380074433 implements MigrationInterface {
           {
             name: 'user_id',
             type: 'uuid',
+            isNullable: false,
           },
           {
             name: 'file_id',
@@ -24,18 +25,22 @@ export default class CreateMinutes1619380074433 implements MigrationInterface {
           {
             name: 'start_date',
             type: 'timestamp with time zone',
+            isNullable: false,
           },
           {
             name: 'minute_number',
             type: 'varchar',
+            isNullable: false,
           },
           {
             name: 'place',
             type: 'varchar',
+            isNullable: false,
           },
           {
             name: 'project',
             type: 'varchar',
+            isNullable: false,
           },
           {
             name: 'schedules',

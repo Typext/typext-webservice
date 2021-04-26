@@ -16,10 +16,12 @@ export default class CreateFiles1619377909552 implements MigrationInterface {
           {
             name: 'name',
             type: 'varchar',
+            isNullable: false,
           },
           {
             name: 'path',
             type: 'varchar',
+            isNullable: false,
           },
           {
             name: 'created_at',
