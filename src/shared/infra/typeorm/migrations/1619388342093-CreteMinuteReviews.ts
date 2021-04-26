@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export default class CreateTopics1619381838476 implements MigrationInterface {
+export class CreteMinuteReviews1619388342093 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'topics',
+        name: 'minute_reviews',
         columns: [
           {
             name: 'id',
@@ -18,7 +18,7 @@ export default class CreateTopics1619381838476 implements MigrationInterface {
             type: 'int',
           },
           {
-            name: 'name',
+            name: 'topic',
             type: 'varchar',
           },
           {
@@ -55,6 +55,6 @@ export default class CreateTopics1619381838476 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('topics');
+    await queryRunner.dropTable('minute_reviews');
   }
 }

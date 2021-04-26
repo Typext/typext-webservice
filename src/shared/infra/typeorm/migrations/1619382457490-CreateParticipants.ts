@@ -59,6 +59,8 @@ export default class CreateParticipants1619382457490
             referencedTableName: 'minutes',
             referencedColumnNames: ['id'],
             columnNames: ['minute_id'],
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
         ],
       }),

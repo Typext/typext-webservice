@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export default class CreateTopics1619381838476 implements MigrationInterface {
+export class CreteLogs1619388829938 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'topics',
+        name: 'logs',
         columns: [
           {
             name: 'id',
@@ -14,20 +14,20 @@ export default class CreateTopics1619381838476 implements MigrationInterface {
             generationStrategy: 'increment',
           },
           {
+            name: 'user_id',
+            type: 'uuid',
+          },
+          {
+            name: 'minute_review_id',
+            type: 'int',
+          },
+          {
             name: 'minute_id',
             type: 'int',
           },
           {
-            name: 'name',
+            name: 'registered_action',
             type: 'varchar',
-          },
-          {
-            name: 'responsible',
-            type: 'varchar',
-          },
-          {
-            name: 'deadline',
-            type: 'timestamp with time zone',
           },
           {
             name: 'created_at',
@@ -42,6 +42,22 @@ export default class CreateTopics1619381838476 implements MigrationInterface {
         ],
         foreignKeys: [
           {
+            name: 'UserId',
+            referencedTableName: 'users',
+            referencedColumnNames: ['id'],
+            columnNames: ['user_id'],
+            onDelete: 'SET NULL',
+            onUpdate: 'CASCADE',
+          },
+          {
+            name: 'MinuteReviewId',
+            referencedTableName: 'minute_reviews',
+            referencedColumnNames: ['id'],
+            columnNames: ['minute_review_id'],
+            onDelete: 'SET NULL',
+            onUpdate: 'CASCADE',
+          },
+          {
             name: 'MinuteId',
             referencedTableName: 'minutes',
             referencedColumnNames: ['id'],
@@ -55,6 +71,6 @@ export default class CreateTopics1619381838476 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('topics');
+    await queryRunner.dropTable('logs');
   }
 }

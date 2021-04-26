@@ -521,7 +521,7 @@
                   }
                 },
                 "example": {
-                  "token": "6b54c12b-a4bb-4e32-87e9-944e1104c56b",
+                  "email": "johndoe@example.com",
                   "password": "567890",
                   "password_confirmation": "567890"
                 }
@@ -585,32 +585,6 @@
           "active": {
             "type": "boolean",
             "default": false
-          },
-          "created_at": {
-            "type": "timestamp with time zone"
-          },
-          "updated_at": {
-            "type": "timestamp with time zone"
-          }
-        }
-      },
-
-      "user_tokens": {
-        "type": "object",
-        "required": [
-          "id",
-          "user_id",
-          "token"
-        ],
-        "properties": {
-          "id": {
-            "type": "uuid"
-          },
-          "user_id": {
-            "type": "uuid (FK)"
-          },
-          "token": {
-            "type": "uuid"
           },
           "created_at": {
             "type": "timestamp with time zone"
