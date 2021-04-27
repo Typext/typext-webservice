@@ -8,7 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-import User from '@modules/users/infra/typeorm/entities/User';
+import User from '../../../../users/infra/typeorm/entities/User';
 import File from './File';
 
 @Entity('minutes')
@@ -36,11 +36,11 @@ class Minute {
   @Column()
   project: string;
 
-  @Column('string', { array: true })
-  schedules: string[];
+  @Column()
+  schedules: string;
 
-  @Column('string', { array: true })
-  areas: string[];
+  @Column()
+  areas: string;
 
   @Column()
   status: string;
