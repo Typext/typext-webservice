@@ -20,6 +20,7 @@ export class CreteLogs1619388829938 implements MigrationInterface {
           {
             name: 'minute_review_id',
             type: 'int',
+            isNullable: true,
           },
           {
             name: 'minute_id',

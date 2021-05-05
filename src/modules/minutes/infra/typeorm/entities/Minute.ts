@@ -4,8 +4,8 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
   JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 
 import User from '../../../../users/infra/typeorm/entities/User';
@@ -16,13 +16,13 @@ class Minute {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => User)
-  @JoinColumn({ name: 'user' })
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'user_id' })
   user_id: User;
 
-  @OneToOne(() => File)
-  @JoinColumn({ name: 'file' })
-  minute_review_id: File;
+  // @ManyToOne(() => File)
+  @JoinColumn()
+  file_id: File;
 
   @Column()
   start_date: Date;
@@ -36,11 +36,11 @@ class Minute {
   @Column()
   project: string;
 
-  @Column()
-  schedules: string;
+  @Column('text', { array: true })
+  schedules: string[];
 
-  @Column()
-  areas: string;
+  @Column('text', { array: true })
+  areas: string[];
 
   @Column()
   status: string;
