@@ -28,6 +28,9 @@ class Minute {
   start_date: Date;
 
   @Column()
+  end_date: Date;
+
+  @Column()
   minute_number: string;
 
   @Column()

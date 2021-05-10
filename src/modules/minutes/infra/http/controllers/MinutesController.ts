@@ -8,7 +8,7 @@ export default class MinutesController {
     const minute = request.body;
     const userId = request.user.id;
 
-    Object.assign(minute, { user_id: userId });
+    Object.assign(minute.minute, { user_id: userId });
 
     const cretaeMinute = container.resolve(CreateMinuteService);
 

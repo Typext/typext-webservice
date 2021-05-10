@@ -27,6 +27,11 @@ export default class CreateMinutes1619380074433 implements MigrationInterface {
             type: 'timestamp with time zone',
           },
           {
+            name: 'end_date',
+            type: 'timestamp with time zone',
+            isNullable: true,
+          },
+          {
             name: 'minute_number',
             type: 'varchar',
           },
@@ -51,7 +56,6 @@ export default class CreateMinutes1619380074433 implements MigrationInterface {
           {
             name: 'status',
             type: 'varchar',
-            isNullable: true,
           },
           {
             name: 'created_at',
