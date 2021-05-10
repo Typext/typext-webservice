@@ -16,6 +16,7 @@ export default class CreateTopics1619381838476 implements MigrationInterface {
           {
             name: 'minute_id',
             type: 'int',
+            isNullable: true,
           },
           {
             name: 'name',

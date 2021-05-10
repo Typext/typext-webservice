@@ -17,6 +17,7 @@ export default class CreateParticipants1619382457490
           {
             name: 'minute_id',
             type: 'int',
+            isNullable: true,
           },
           {
             name: 'name',
