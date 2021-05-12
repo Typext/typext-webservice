@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 
 import CreateMinuteService from '@modules/minutes/services/CreateMinuteService';
 import GetMinuteService from '@modules/minutes/services/GetMinuteService';
+import ListMinuteService from '@modules/minutes/services/ListMinuteService';
 
 export default class MinutesController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -30,5 +31,13 @@ export default class MinutesController {
     });
 
     return response.json(createdMinute);
+  }
+
+  public async index(request: Request, response: Response): Promise<Response> {
+    const listMinutes = container.resolve(ListMinuteService);
+
+    const minutes = await listMinutes.execute();
+
+    return response.json(minutes);
   }
 }

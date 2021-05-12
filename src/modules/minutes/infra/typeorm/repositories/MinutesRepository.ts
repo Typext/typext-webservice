@@ -28,6 +28,12 @@ class MinutesRepository implements IMinutesRepository {
 
     return foundMinute;
   }
+
+  public async findAll(): Promise<Minute[]> {
+    const minutes = this.ormRepository.find();
+
+    return minutes;
+  }
 }
 
 export default MinutesRepository;
