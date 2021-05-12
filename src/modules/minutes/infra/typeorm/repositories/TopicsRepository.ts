@@ -40,6 +40,13 @@ class TopicisRepository implements ITopicsRepository {
 
     return createTopic;
   }
+
+  public async index(minuteId: number): Promise<Topic[]> {
+    const foundTopics = await this.ormRepository.find({
+      where: { minute_id: minuteId },
+    });
+    return foundTopics;
+  }
 }
 
 export default TopicisRepository;

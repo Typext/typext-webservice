@@ -19,6 +19,13 @@ class ParticipantsRepository implements IParticipantsRepository {
 
     return createParticipant;
   }
+
+  public async index(minuteId: number): Promise<Participant[]> {
+    const foundTopics = await this.ormRepository.find({
+      where: { minute_id: minuteId },
+    });
+    return foundTopics;
+  }
 }
 
 export default ParticipantsRepository;

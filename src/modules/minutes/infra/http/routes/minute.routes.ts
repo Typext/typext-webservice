@@ -9,6 +9,7 @@ const minutesController = new MinutesController();
 
 minuteRouter.use(ensureAuthenticated);
 
+minuteRouter.get('/:id', minutesController.show);
 minuteRouter.post('/', minutesController.create);
 
 export default minuteRouter;
