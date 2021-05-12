@@ -3,4 +3,5 @@ import ICreateParticipantDTO from '../dtos/ICreateParticipantDTO';
 
 export default interface ILogsRepository {
   create(participant: ICreateParticipantDTO): Promise<Participant>;
+  index(minuteId: number): Promise<Participant[]>;
 }
