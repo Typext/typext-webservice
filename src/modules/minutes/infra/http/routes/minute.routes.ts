@@ -11,5 +11,6 @@ minuteRouter.use(ensureAuthenticated);
 
 minuteRouter.get('/:id', minutesController.show);
 minuteRouter.post('/', minutesController.create);
+minuteRouter.get('/', minutesController.index);
 
 export default minuteRouter;

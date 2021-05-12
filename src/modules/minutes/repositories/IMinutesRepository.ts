@@ -5,4 +5,5 @@ import Minute from '../infra/typeorm/entities/Minute';
 export default interface IMinutesRepository {
   create(minute: ICreateMinuteDTO): Promise<Minute>;
   show(request: IGetMinuteDTO): Promise<Minute | undefined>;
+  findAll(): Promise<Minute[]>;
 }
