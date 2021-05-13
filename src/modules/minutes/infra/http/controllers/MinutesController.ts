@@ -20,8 +20,9 @@ export default class MinutesController {
   }
 
   public async show(request: Request, response: Response): Promise<Response> {
-    const minuteId = request.params.id;
+    const minuteIdString = request.params.id;
     const userType = request.user.type;
+    const minuteId = Number(minuteIdString);
 
     const getMinuteService = container.resolve(GetMinuteService);
 
