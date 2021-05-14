@@ -1,7 +1,3 @@
-import User from '@modules/users/infra/typeorm/entities/User';
-
-// import File from '../infra/typeorm/entities/File';
-
 export default interface ICreateMinuteDTO {
   start_date: Date;
   end_date?: Date;

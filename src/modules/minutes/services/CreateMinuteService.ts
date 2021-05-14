@@ -59,8 +59,6 @@ class CreateMinuteService {
     const endDate = new Date();
     minute.minute.end_date = addHours(endDate, -3);
 
-    console.log(minute.minute.end_date);
-
     const createMinute = await this.minutesRepository.create(minute.minute);
 
     for (const participant of minute.participant) {

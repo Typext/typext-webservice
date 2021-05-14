@@ -18,6 +18,9 @@ import IParticipantsRepository from '@modules/minutes/repositories/IParticipants
 import TopicsRepository from '@modules/minutes/infra/typeorm/repositories/TopicsRepository';
 import ITopicsRepository from '@modules/minutes/repositories/ITopicsRepository';
 
+import ReviewsRepository from '@modules/minutes/infra/typeorm/repositories/ReviewsRepository';
+import IReviewsRepository from '@modules/minutes/repositories/IReviewRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -38,4 +41,9 @@ container.registerSingleton<IParticipantsRepository>(
 container.registerSingleton<ITopicsRepository>(
   'TopicsRepository',
   TopicsRepository,
+);
+
+container.registerSingleton<IReviewsRepository>(
+  'ReviewsRepository',
+  ReviewsRepository,
 );

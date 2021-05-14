@@ -2,8 +2,6 @@
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
-import { json } from 'express';
-import Minute from '../infra/typeorm/entities/Minute';
 import IMinutesRepository from '../repositories/IMinutesRepository';
 import IParticipantsRepository from '../repositories/IParticipantsRepository';
 import ITopicsRepository from '../repositories/ITopicsRepository';
@@ -33,10 +31,7 @@ class GetMinuteService {
       throw new AppError('Permission Denied');
     }
 
-    const foundMinute = await this.minutesRepository.show({
-      userType,
-      minuteId,
-    });
+    const foundMinute = await this.minutesRepository.show(minuteId);
 
     const foundTopics = await this.topicsRepository.index(minuteId);
 
