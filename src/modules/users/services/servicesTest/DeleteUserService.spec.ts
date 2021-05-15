@@ -34,6 +34,7 @@ describe('DeleteUser', () => {
 
   it('should be able for the administrator user to delete an user', async () => {
     const user = await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'admin@rentx.com',
       type: 'Admin',
@@ -50,6 +51,7 @@ describe('DeleteUser', () => {
     });
 
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Admin',
@@ -84,6 +86,7 @@ describe('DeleteUser', () => {
 
   it('should not be possible for a user who is not an administrator to delete an user', async () => {
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',
@@ -109,6 +112,7 @@ describe('DeleteUser', () => {
 
   it('should not be able to delete a user if he is the last administrator user', async () => {
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Admin',

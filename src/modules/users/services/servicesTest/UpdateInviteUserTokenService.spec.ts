@@ -37,6 +37,7 @@ describe('UpdateInviteUserToken', () => {
     const sendMail = jest.spyOn(fakeMailProvider, 'sendMail');
 
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',

@@ -34,12 +34,14 @@ describe('ListUsers', () => {
 
   it('should be able for the administrator user to list all users', async () => {
     const user1 = await inviteUser.execute({
+      userType: 'Admin',
       name: 'John Doe',
       email: 'johndoe@example.com',
       type: 'Usuário',
     });
 
     const user2 = await inviteUser.execute({
+      userType: 'Admin',
       name: 'John Tre',
       email: 'johntre@example.com',
       type: 'Usuário',
@@ -52,6 +54,7 @@ describe('ListUsers', () => {
 
   it('should not be possible for a user who is not an administrator to list all users', async () => {
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',

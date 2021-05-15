@@ -4,9 +4,15 @@ import { injectable, inject } from 'tsyringe';
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
 import AppError from '@shared/errors/AppError';
 
-import ICreateInviteUserDTO from '../dtos/ICreateInviteUserDTO';
 import User from '../infra/typeorm/entities/User';
 import IUsersRepository from '../repositories/IUsersRepository';
+
+interface IRequest {
+  userType: string;
+  name: string;
+  email: string;
+  type: string;
+}
 
 @injectable()
 class CreateInviteUserService {
@@ -19,20 +25,25 @@ class CreateInviteUserService {
   ) {}
 
   public async execute({
+    userType,
     name,
     email,
     type,
-  }: ICreateInviteUserDTO): Promise<User> {
+  }: IRequest): Promise<User> {
+    if (userType !== 'Admin') {
+      throw new AppError('Permission denied', 401);
+    }
+
     const user = await this.usersRepository.findByEmail(email);
 
     if (user) {
       throw new AppError('This email is already in use.', 401);
     }
 
-    const userType =
+    const typeUser =
       type !== 'Admin' && type !== 'Gerente' && type !== 'Usuário';
 
-    if (userType) {
+    if (typeUser) {
       throw new AppError('That user type does not exist.', 403);
     }
 

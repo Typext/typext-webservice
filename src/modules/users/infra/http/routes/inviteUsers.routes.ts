@@ -1,6 +1,8 @@
 import { celebrate, Segments, Joi } from 'celebrate';
 import { Router } from 'express';
 
+import ensuredAuthenticated from '@shared/infra/http/middlewares/ensureAuthenticated';
+
 import InviteUsersController from '../controllers/InviteUsersController';
 
 const inviteUsersRouter = Router();
@@ -16,6 +18,7 @@ inviteUsersRouter.post(
       type: Joi.string().required(),
     },
   }),
+  ensuredAuthenticated,
   inviteUsersController.create,
 );
 

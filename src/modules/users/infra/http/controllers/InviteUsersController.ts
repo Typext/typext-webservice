@@ -6,11 +6,14 @@ import UpdateInviteUserTokenService from '@modules/users/services/UpdateInviteUs
 
 export default class InviteUserController {
   public async create(request: Request, response: Response): Promise<Response> {
+    const userType = request.user.type;
+
     const { name, email, type } = request.body;
 
     const createInviteUser = container.resolve(CreateInviteUserService);
 
     await createInviteUser.execute({
+      userType,
       name,
       email,
       type,

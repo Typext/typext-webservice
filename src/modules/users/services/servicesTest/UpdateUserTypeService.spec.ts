@@ -34,6 +34,7 @@ describe('UpdateUserType', () => {
 
   it("should be able for the administrator user to update the user's permission level", async () => {
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',
@@ -70,6 +71,7 @@ describe('UpdateUserType', () => {
 
   it("should not be possible for a user who is not an administrator to update the user's permission level", async () => {
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',

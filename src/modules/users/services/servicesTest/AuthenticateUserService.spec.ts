@@ -37,6 +37,7 @@ describe('CreateUser', () => {
 
   it('should be able to authenticate a user', async () => {
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',
@@ -72,6 +73,7 @@ describe('CreateUser', () => {
 
   it('should not be able to authenticate with wrong password', async () => {
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',
