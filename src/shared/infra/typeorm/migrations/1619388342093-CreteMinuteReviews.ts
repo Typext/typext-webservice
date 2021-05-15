@@ -18,6 +18,10 @@ export class CreteMinuteReviews1619388342093 implements MigrationInterface {
             type: 'int',
           },
           {
+            name: 'user_id',
+            type: 'uuid',
+          },
+          {
             name: 'topic',
             type: 'varchar',
           },

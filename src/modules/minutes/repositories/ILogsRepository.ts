@@ -3,5 +3,4 @@ import ICreateLogDTO from '../dtos/ICreateLogDTO';
 
 export default interface ILogsRepository {
   create(log: ICreateLogDTO): Promise<Log>;
-  index(log: ICreateLogDTO): Promise<Log>;
 }

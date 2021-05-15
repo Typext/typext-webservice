@@ -2,7 +2,6 @@ import IMinutesRepository from '@modules/minutes/repositories/IMinutesRepository
 import { getRepository, Repository } from 'typeorm';
 
 import ICreateMinuteDTO from '@modules/minutes/dtos/ICreateMinuteDTO';
-import IGetMinuteDTO from '@modules/minutes/dtos/IGetMinuteDTO';
 import Minute from '../entities/Minute';
 
 class MinutesRepository implements IMinutesRepository {
@@ -19,9 +18,7 @@ class MinutesRepository implements IMinutesRepository {
     return createMinute;
   }
 
-  public async show(request: IGetMinuteDTO): Promise<Minute | undefined> {
-    const { minuteId } = request;
-
+  public async show(minuteId: number): Promise<Minute | undefined> {
     const foundMinute = await this.ormRepository.findOne({
       where: { id: minuteId },
     });
@@ -31,7 +28,6 @@ class MinutesRepository implements IMinutesRepository {
 
   public async findAll(): Promise<Minute[]> {
     const minutes = this.ormRepository.find();
-
     return minutes;
   }
 }

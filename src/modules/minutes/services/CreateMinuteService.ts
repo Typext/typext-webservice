@@ -55,11 +55,10 @@ class CreateMinuteService {
   public async execute(shcedule: IRequest): Promise<Minute> {
     Object.assign(shcedule.minute, { status: 'nova' });
 
-    console.log(shcedule.minute.end_date);
-
     const createMinute = await this.minutesRepository.create(shcedule.minute);
 
     for (const participant of shcedule.participant) {
+
       Object.assign(participant, { minute_id: createMinute.id });
       this.participantsRepository.create(participant);
     }
