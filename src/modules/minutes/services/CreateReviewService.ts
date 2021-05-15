@@ -26,9 +26,10 @@ class CreateMinuteService {
     private reviewsRepository: IReviewsRepository,
   ) {}
 
-  public async execute(request: ICreateReviewDTO): Promise<Review | undefined> {
-    const minuteId = request.minute_id;
+  public async execute(reviewDTO: ICreateReviewDTO): Promise<Review> {
+    const minuteId = reviewDTO.minute_id;
     const minute = await this.minutesRepository.show(minuteId);
+    const { user_id } = reviewDTO;
 
     if (!minute) {
       throw new AppError('Minute not found', 404);
@@ -49,13 +50,16 @@ class CreateMinuteService {
     });
     minute.status = 'revisada';
 
-    const createdReview = await this.reviewsRepository.create(request);
+    // TODO
+    // Salvar minuta com novo status
+
+    const createdReview = await this.reviewsRepository.create(reviewDTO);
 
     // TODO
     // Enviar email para todos os participantes assinarem
 
     await this.logsRepository.create({
-      user_id: minute.user_id,
+      user_id: reviewDTO.user_id,
       minute_id: minuteId,
       registered_action: 'Criação de revisão',
     });

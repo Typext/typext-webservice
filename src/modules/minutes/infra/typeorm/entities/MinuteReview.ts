@@ -6,8 +6,11 @@ import {
   UpdateDateColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
+  ManyToOne,
 } from 'typeorm';
 
+import User from '../../../../users/infra/typeorm/entities/User';
 import Minute from './Minute';
 
 @Entity('minute_reviews')
@@ -15,9 +18,13 @@ class MinuteReview {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => Minute)
-  @JoinColumn({ name: 'minute' })
-  user_id: Minute;
+  @ManyToOne(() => Minute)
+  @JoinColumn({ name: 'minute_id' })
+  minute_id: Minute;
+
+  @OneToOne(() => User)
+  @JoinColumn({ name: 'user_id' })
+  user_id: User;
 
   @Column()
   topic: string;

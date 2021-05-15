@@ -1,4 +1,5 @@
 export default interface ICreateRevisionDTO {
+  user_id?: string;
   minute_id: number;
   topic: string;
   responsible: string;
