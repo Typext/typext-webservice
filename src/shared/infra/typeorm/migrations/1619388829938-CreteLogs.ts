@@ -63,7 +63,7 @@ export class CreteLogs1619388829938 implements MigrationInterface {
             referencedTableName: 'minutes',
             referencedColumnNames: ['id'],
             columnNames: ['minute_id'],
-            onDelete: 'CASCADE',
+            onDelete: 'SET NULL',
             onUpdate: 'CASCADE',
           },
         ],

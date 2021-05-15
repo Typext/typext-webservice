@@ -46,7 +46,7 @@ class DeleteScheduleMeetingService {
     await this.logsRepository.create({
       minute_id: minute.id,
       user_id: user,
-      registered_action: `O agendamento para a reunião ${minute.project} foi excluído por ${minute.user_id}.`,
+      registered_action: 'Agendamento cancelado',
     });
 
     await this.minutesRepository.deleteScheduleMeeting(minute);
