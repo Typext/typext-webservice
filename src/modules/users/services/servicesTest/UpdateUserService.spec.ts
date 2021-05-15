@@ -34,6 +34,7 @@ describe('UpdateUser', () => {
 
   it('should be able to update the profile', async () => {
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',
@@ -76,6 +77,7 @@ describe('UpdateUser', () => {
 
   it('should be able to update the password', async () => {
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',
@@ -107,6 +109,7 @@ describe('UpdateUser', () => {
 
   it('should not be able to update the password without old password', async () => {
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',
@@ -137,6 +140,7 @@ describe('UpdateUser', () => {
 
   it('should not be able to update the password with wrong old password', async () => {
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',

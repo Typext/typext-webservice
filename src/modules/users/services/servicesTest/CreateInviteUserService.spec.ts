@@ -22,6 +22,7 @@ describe('InviteUser', () => {
 
   it('should be able to invite a new user', async () => {
     const user = await createInviteUser.execute({
+      userType: 'Admin',
       name: 'John Doe',
       email: 'johndoe@example.com',
       type: 'Usuário',
@@ -30,8 +31,20 @@ describe('InviteUser', () => {
     expect(user).toHaveProperty('id');
   });
 
+  it('should not be possible for a user who is not an administrator to invite an user', async () => {
+    await expect(
+      createInviteUser.execute({
+        userType: 'non-admin user',
+        name: 'John',
+        email: 'johndoe@example.com',
+        type: 'Usuário',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
   it('should not be able to invite a new user a registered email', async () => {
     await createInviteUser.execute({
+      userType: 'Admin',
       name: 'John Doe',
       email: 'johndoe@example.com',
       type: 'Usuário',
@@ -39,6 +52,7 @@ describe('InviteUser', () => {
 
     await expect(
       createInviteUser.execute({
+        userType: 'Admin',
         name: 'John Doe',
         email: 'johndoe@example.com',
         type: 'Usuário',
@@ -49,6 +63,7 @@ describe('InviteUser', () => {
   it('should not be able to invite a new user with a wrong type', async () => {
     await expect(
       createInviteUser.execute({
+        userType: 'Admin',
         name: 'John Doe',
         email: 'johndoe@example.com',
         type: 'Vendedor',

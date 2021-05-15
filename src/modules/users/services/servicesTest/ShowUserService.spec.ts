@@ -34,6 +34,7 @@ describe('ShowUser', () => {
 
   it('should be able to find one user by id', async () => {
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',

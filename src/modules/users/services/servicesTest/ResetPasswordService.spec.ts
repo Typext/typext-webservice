@@ -37,6 +37,7 @@ describe('ResetPassword', () => {
 
   it('should be able to reset the password', async () => {
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',
@@ -73,6 +74,7 @@ describe('ResetPassword', () => {
 
   it('should not be able to reset the password if passed more than 2 hours', async () => {
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',

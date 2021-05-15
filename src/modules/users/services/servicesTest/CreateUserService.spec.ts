@@ -30,6 +30,7 @@ describe('CreateUser', () => {
 
   it('should be able to create a new user', async () => {
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',
@@ -67,6 +68,7 @@ describe('CreateUser', () => {
 
   it('should not be able to create user if invitation were more than 2 hours', async () => {
     await inviteUser.execute({
+      userType: 'Admin',
       name: 'John',
       email: 'johndoe@example.com',
       type: 'Usuário',
