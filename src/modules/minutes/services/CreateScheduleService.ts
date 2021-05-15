@@ -52,18 +52,19 @@ class CreateMinuteService {
     private logsRepository: ILogsRepository,
   ) {}
 
-  public async execute(shcedule: IRequest): Promise<Minute> {
-    Object.assign(shcedule.minute, { status: 'nova' });
+  public async execute(minute: IRequest): Promise<Minute> {
+    Object.assign(minute.minute, { status: 'agendado' });
 
-    const createMinute = await this.minutesRepository.create(shcedule.minute);
+    console.log(minute.minute.end_date);
 
-    for (const participant of shcedule.participant) {
+    const createMinute = await this.minutesRepository.create(minute.minute);
 
+    for (const participant of minute.participant) {
       Object.assign(participant, { minute_id: createMinute.id });
       this.participantsRepository.create(participant);
     }
 
-    for (const topic of shcedule.topic) {
+    for (const topic of minute.topic) {
       Object.assign(topic, { minute_id: createMinute.id });
       this.topicsRepository.create(topic);
     }
@@ -74,7 +75,7 @@ class CreateMinuteService {
       registered_action: 'Criação de ata',
     });
 
-    return shcedule;
+    return minute;
   }
 }
 
