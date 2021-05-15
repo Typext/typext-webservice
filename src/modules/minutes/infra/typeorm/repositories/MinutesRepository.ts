@@ -18,7 +18,7 @@ class MinutesRepository implements IMinutesRepository {
     return createMinute;
   }
 
-  public async show(minuteId: number): Promise<Minute | undefined> {
+  public async findById(minuteId: number): Promise<Minute | undefined> {
     const foundMinute = await this.ormRepository.findOne({
       where: { id: minuteId },
     });
@@ -29,6 +29,10 @@ class MinutesRepository implements IMinutesRepository {
   public async findAll(): Promise<Minute[]> {
     const minutes = this.ormRepository.find();
     return minutes;
+  }
+
+  public async deleteScheduleMeeting(minute: Minute): Promise<void> {
+    await this.ormRepository.delete(minute.id);
   }
 }
 

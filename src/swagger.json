@@ -541,6 +541,39 @@
           }
         }
       }
+    },
+
+    "/schedule/minuteId/{minuteId}": {
+      "delete": {
+        "tags": ["Minutes"],
+        "summary": "Exclusão de um agendamento de reunião",
+        "description": "Essa rota permite que qualquer tipo usuário exclua o agendamento de uma reunião",
+        "parameters": [
+          {
+            "name": "minuteId",
+            "in": "path",
+            "description": "ID da ata que deseja excluir o agendamento da reunião",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Schedule meeting has been deleted"
+          },
+          "401": {
+            "description": "This minute does not exists"
+          },
+          "403": {
+            "description": "These minutes cannot be deleted in this status"
+          },
+          "404": {
+            "description": "User does not found"
+          }
+        }
+      }
     }
   },
 
@@ -585,6 +618,60 @@
           "active": {
             "type": "boolean",
             "default": false
+          },
+          "created_at": {
+            "type": "timestamp with time zone"
+          },
+          "updated_at": {
+            "type": "timestamp with time zone"
+          }
+        }
+      },
+
+      "minutes": {
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "start_date",
+          "minute_number",
+          "place",
+          "project",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "uuid"
+          },
+          "start_date": {
+            "type": "timestamp with time zone"
+          },
+          "end_date": {
+            "type": "timestamp with time zone"
+          },
+          "minute_number": {
+            "type": "string"
+          },
+          "place": {
+            "type": "string"
+          },
+          "project": {
+            "type": "string"
+          },
+          "schedules": {
+            "type": "text array"
+          },
+          "areas": {
+            "type": "text array"
+          },
+          "status": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "uuid (FK)"
+          },
+          "file_id": {
+            "type": "number (FK)"
           },
           "created_at": {
             "type": "timestamp with time zone"

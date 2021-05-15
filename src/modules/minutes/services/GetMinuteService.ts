@@ -31,7 +31,7 @@ class GetMinuteService {
       throw new AppError('Permission Denied');
     }
 
-    const foundMinute = await this.minutesRepository.show(minuteId);
+    const foundMinute = await this.minutesRepository.findById(minuteId);
 
     const foundTopics = await this.topicsRepository.index(minuteId);
 
