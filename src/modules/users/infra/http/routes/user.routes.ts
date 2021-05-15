@@ -67,6 +67,15 @@ usersRouter.patch(
   usersController.patch,
 );
 
-usersRouter.delete('/:id', ensureAuthenticated, usersController.destroy);
+usersRouter.delete(
+  '/:id',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+  }),
+  ensureAuthenticated,
+  usersController.destroy,
+);
 
 export default usersRouter;

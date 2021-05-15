@@ -28,7 +28,7 @@ class CreateMinuteService {
 
   public async execute(reviewDTO: ICreateReviewDTO): Promise<Review> {
     const minuteId = reviewDTO.minute_id;
-    const minute = await this.minutesRepository.show(minuteId);
+    const minute = await this.minutesRepository.findById(minuteId);
     const { user_id } = reviewDTO;
 
     if (!minute) {
