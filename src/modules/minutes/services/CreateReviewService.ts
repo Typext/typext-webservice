@@ -68,7 +68,7 @@ class CreateMinuteService {
     for (const participant of participants) {
       participant.digital_signature = false;
 
-      await this.mailProvider.sendMail({
+      this.mailProvider.sendMail({
         to: {
           name: participant.name,
           email: participant.email,
@@ -78,7 +78,7 @@ class CreateMinuteService {
           file: newReview,
           variables: {
             name: participant.name,
-            link: `${process.env.APP_WEB_URL}/review/${minuteId}/${participant.email}`,
+            link: `${process.env.APP_WEB_URL}/sign-minute/${minuteId}/${participant.email}`,
           },
         },
       });
