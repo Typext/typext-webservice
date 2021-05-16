@@ -11,7 +11,6 @@ interface IRequest {
   minute: {
     start_date: Date;
     end_date: Date;
-    minute_number: string;
     place: string;
     project: string;
     schedules: string[];
@@ -52,18 +51,23 @@ class CreateMinuteService {
     private logsRepository: ILogsRepository,
   ) {}
 
-  public async execute(shcedule: IRequest): Promise<Minute> {
-    Object.assign(shcedule.minute, { status: 'nova' });
+  public async execute(minuteData: IRequest): Promise<Minute> {
+    Object.assign(minuteData.minute, { status: 'nova', minute_number: '2021' });
 
-    const createMinute = await this.minutesRepository.create(shcedule.minute);
+    const createMinute = await this.minutesRepository.create(minuteData.minute);
 
-    for (const participant of shcedule.participant) {
+    createMinute.minute_number = `${createMinute.id.toString()}/2021`;
 
+    console.log(createMinute);
+
+    await this.minutesRepository.save(createMinute);
+
+    for (const participant of minuteData.participant) {
       Object.assign(participant, { minute_id: createMinute.id });
       this.participantsRepository.create(participant);
     }
 
-    for (const topic of shcedule.topic) {
+    for (const topic of minuteData.topic) {
       Object.assign(topic, { minute_id: createMinute.id });
       this.topicsRepository.create(topic);
     }
@@ -74,7 +78,7 @@ class CreateMinuteService {
       registered_action: 'Criação de ata',
     });
 
-    return shcedule;
+    return minuteData;
   }
 }
 

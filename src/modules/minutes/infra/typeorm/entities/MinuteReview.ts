@@ -9,7 +9,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 
-import User from '@modules/users/infra/typeorm/entities/User';
+import User from '../../../../users/infra/typeorm/entities/User';
 import Minute from './Minute';
 
 @Entity('minute_reviews')

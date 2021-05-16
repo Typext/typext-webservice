@@ -17,7 +17,6 @@ minuteRouter.post(
     [Segments.BODY]: {
       minute: {
         start_date: Joi.date().required(),
-        minute_number: Joi.string().alphanum().required(),
         place: Joi.string().required(),
         project: Joi.string().required(),
         schedules: Joi.array().required(),
