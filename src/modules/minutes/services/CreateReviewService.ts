@@ -79,6 +79,7 @@ class CreateMinuteService {
           variables: {
             name: participant.name,
             link: `${process.env.APP_WEB_URL}/sign-minute/${minuteId}/${participant.email}`,
+            link_view_minute: `${process.env.APP_WEB_URL}/sign-minute/${minuteId}/${participant.email}`,
           },
         },
       });

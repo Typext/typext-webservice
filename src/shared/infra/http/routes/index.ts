@@ -7,7 +7,7 @@ import usersRouter from '@modules/users/infra/http/routes/user.routes';
 import minuteRouter from '@modules/minutes/infra/http/routes/minute.routes';
 import reviewsRouter from '@modules/minutes/infra/http/routes/review.routes';
 import scheduleRouter from '@modules/minutes/infra/http/routes/schedule.routes';
-
+import signRouter from '@modules/minutes/infra/http/routes/sign.routes';
 
 const routes = Router();
 
@@ -18,5 +18,6 @@ routes.use('/password', passwordRouter);
 routes.use('/minutes', minuteRouter);
 routes.use('/reviews', reviewsRouter);
 routes.use('/schedule', scheduleRouter);
+routes.use('/sign-minute', signRouter);
 
 export default routes;
