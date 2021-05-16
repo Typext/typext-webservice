@@ -26,6 +26,11 @@ class ParticipantsRepository implements IParticipantsRepository {
     });
     return foundTopics;
   }
+
+  public async save(participant: Participant): Promise<Participant> {
+    const savedParticipant = await this.ormRepository.save(participant);
+    return savedParticipant;
+  }
 }
 
 export default ParticipantsRepository;
