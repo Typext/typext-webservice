@@ -34,6 +34,11 @@ class MinutesRepository implements IMinutesRepository {
   public async deleteScheduleMeeting(minute: Minute): Promise<void> {
     await this.ormRepository.delete(minute.id);
   }
+
+  public async save(minute: Minute): Promise<Minute> {
+    const savedMinute = await this.ormRepository.save(minute);
+    return savedMinute;
+  }
 }
 
 export default MinutesRepository;

@@ -1,7 +1,7 @@
 import Participant from '../infra/typeorm/entities/Participant';
-import ICreateParticipantDTO from '../dtos/ICreateParticipantDTO';
 
 export default interface ILogsRepository {
-  create(participant: ICreateParticipantDTO): Promise<Participant>;
+  create(participant: Participant): Promise<Participant>;
   index(minuteId: number): Promise<Participant[]>;
+  save(participant: Participant): Promise<Participant>;
 }
