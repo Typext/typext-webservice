@@ -10,7 +10,6 @@ import ILogsRepository from '../repositories/ILogsRepository';
 interface IRequest {
   minute: {
     start_date: Date;
-    end_date: Date;
     minute_number: string;
     place: string;
     project: string;
@@ -52,19 +51,24 @@ class CreateMinuteService {
     private logsRepository: ILogsRepository,
   ) {}
 
-  public async execute(minute: IRequest): Promise<Minute> {
-    Object.assign(minute.minute, { status: 'agendado' });
+  public async execute(minuteData: IRequest): Promise<Minute> {
+    Object.assign(minuteData.minute, {
+      status: 'agendado',
+      minute_number: '2021',
+    });
 
-    console.log(minute.minute.end_date);
+    const createMinute = await this.minutesRepository.create(minuteData.minute);
 
-    const createMinute = await this.minutesRepository.create(minute.minute);
+    createMinute.minute_number = `${createMinute.id.toString()}/2021`;
 
-    for (const participant of minute.participant) {
+    await this.minutesRepository.save(createMinute);
+
+    for (const participant of minuteData.participant) {
       Object.assign(participant, { minute_id: createMinute.id });
       this.participantsRepository.create(participant);
     }
 
-    for (const topic of minute.topic) {
+    for (const topic of minuteData.topic) {
       Object.assign(topic, { minute_id: createMinute.id });
       this.topicsRepository.create(topic);
     }
@@ -75,7 +79,7 @@ class CreateMinuteService {
       registered_action: 'Criação de ata',
     });
 
-    return minute;
+    return minuteData;
   }
 }
 
