@@ -25,7 +25,7 @@ minuteRouter.post(
       participant: Joi.array().items({
         name: Joi.string().required(),
         email: Joi.string().email().required(),
-        title: Joi.string().max(3).required(),
+        title: Joi.string().required(),
         company: Joi.string().required(),
         phone: Joi.string().required(),
         digital_signature: Joi.bool().required(),

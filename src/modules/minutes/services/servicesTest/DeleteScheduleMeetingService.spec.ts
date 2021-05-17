@@ -47,8 +47,6 @@ describe('DeleteScheduleMeeting', () => {
       minuteId: minute.id,
     });
 
-    console.log(deletedScheduleMeeting);
-
     expect(deletedScheduleMeeting).toEqual(undefined);
   });
 
