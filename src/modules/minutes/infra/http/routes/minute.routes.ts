@@ -41,4 +41,6 @@ minuteRouter.post(
 );
 minuteRouter.get('/', minutesController.index);
 
+minuteRouter.put('/', minutesController.update);
+
 export default minuteRouter;

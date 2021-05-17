@@ -5,6 +5,7 @@ import CreateMinuteService from '@modules/minutes/services/CreateMinuteService';
 import GetMinuteService from '@modules/minutes/services/GetMinuteService';
 import ListMinuteService from '@modules/minutes/services/ListMinuteService';
 import SignMinuteService from '@modules/minutes/services/SignMinuteService';
+import UpdateMinuteService from '@modules/minutes/services/UpdateMinuteService';
 
 export default class MinutesController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -51,5 +52,15 @@ export default class MinutesController {
     const signedParticipant = await signMinuteService.execute(serviceRequest);
 
     return response.json(signedParticipant);
+  }
+
+  public async update(request: Request, response: Response): Promise<Response> {
+    const updateMinuteDTO = request.body;
+
+    const updateMinuteService = container.resolve(UpdateMinuteService);
+
+    const updatedMinute = await updateMinuteService.execute(updateMinuteDTO);
+
+    return response.json(updatedMinute);
   }
 }
