@@ -17,6 +17,12 @@ class LogsRepository implements ILogsRepository {
 
     return createLog;
   }
+
+  public async findAll(): Promise<Log[]> {
+    const allLogs = await this.ormRepository.find();
+
+    return allLogs;
+  }
 }
 
 export default LogsRepository;
