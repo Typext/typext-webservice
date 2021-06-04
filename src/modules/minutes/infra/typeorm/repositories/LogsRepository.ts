@@ -23,6 +23,12 @@ class LogsRepository implements ILogsRepository {
 
     return allLogs;
   }
+
+  public async findByMinute(id: number): Promise<Log[]> {
+    const minuteLogs = await this.ormRepository.find({ where: { id } });
+
+    return minuteLogs;
+  }
 }
 
 export default LogsRepository;

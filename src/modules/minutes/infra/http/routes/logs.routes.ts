@@ -9,4 +9,6 @@ const logsController = new LogsController();
 logsRouter.use(ensureAuthenticated);
 
 logsRouter.get('/', logsController.index);
+logsRouter.get('/:id', logsController.show);
+
 export default logsRouter;
