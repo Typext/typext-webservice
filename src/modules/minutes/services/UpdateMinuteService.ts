@@ -1,12 +1,15 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-restricted-syntax */
 import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
+import { request } from 'express';
 import Minute from '../infra/typeorm/entities/Minute';
 import IMinutesRepository from '../repositories/IMinutesRepository';
 import IParticipantsRepository from '../repositories/IParticipantsRepository';
 import ITopicsRepository from '../repositories/ITopicsRepository';
 import ILogsRepository from '../repositories/ILogsRepository';
+import Participants from '../infra/typeorm/entities/Participant';
 
 interface IRequest {
   minute_id: number;
@@ -59,6 +62,27 @@ class CreateMinuteService {
 
     if (!minute) {
       throw new AppError('Minute not found', 404);
+    }
+
+    const newParticipants = minuteData.participant;
+
+    for (const newParticipant of newParticipants) {
+      Object.assign(newParticipant, {
+        digital_signature: false,
+        minute_id: minuteData.minute_id,
+      });
+      await this.participantsRepository.update(newParticipant);
+    }
+
+    const topics = minuteData.topic;
+
+    for (const topic of topics) {
+      await this.topicsRepository.destroyAll(topic);
+    }
+
+    for (const topic of minuteData.topic) {
+      Object.assign(topic, { minute_id: minuteData.minute_id });
+      await this.topicsRepository.create(topic);
     }
 
     Object.assign(minute, {
