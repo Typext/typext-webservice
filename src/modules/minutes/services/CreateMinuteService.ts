@@ -58,8 +58,6 @@ class CreateMinuteService {
 
     createMinute.minute_number = `${createMinute.id.toString()}/2021`;
 
-    console.log(createMinute);
-
     await this.minutesRepository.save(createMinute);
 
     for (const participant of minuteData.participant) {

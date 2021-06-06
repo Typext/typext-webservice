@@ -2,6 +2,7 @@ import ILogsRepository from '@modules/minutes/repositories/ILogsRepository';
 import { getRepository, Repository } from 'typeorm';
 
 import ICreateLogDTO from '@modules/minutes/dtos/ICreateLogDTO';
+import usersRouter from '@modules/users/infra/http/routes/user.routes';
 import Log from '../entities/Log';
 
 class LogsRepository implements ILogsRepository {
@@ -25,7 +26,10 @@ class LogsRepository implements ILogsRepository {
   }
 
   public async findByMinute(id: number): Promise<Log[]> {
-    const minuteLogs = await this.ormRepository.find({ where: { id } });
+    const minuteLogs = await this.ormRepository.find({
+      where: { id },
+      relations: ['user'],
+    });
 
     return minuteLogs;
   }
