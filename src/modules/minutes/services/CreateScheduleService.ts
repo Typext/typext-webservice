@@ -76,7 +76,7 @@ class CreateMinuteService {
     await this.logsRepository.create({
       user_id: createMinute.user_id,
       minute_id: createMinute.id,
-      registered_action: 'Criação de ata',
+      registered_action: 'Criação de agendamento',
     });
 
     return minuteData;

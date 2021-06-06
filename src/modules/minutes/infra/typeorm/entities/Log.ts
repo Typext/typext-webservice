@@ -9,6 +9,8 @@ import {
   ManyToOne,
 } from 'typeorm';
 
+import { Expose } from 'class-transformer';
+
 import User from '../../../../users/infra/typeorm/entities/User';
 import MinuteReview from './MinuteReview';
 import Minute from './Minute';
@@ -18,9 +20,12 @@ class Log {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ name: 'user_id' })
+  user_id: number;
+
   @OneToOne(() => User)
   @JoinColumn({ name: 'user_id' })
-  user_id: User;
+  user: User;
 
   @OneToOne(() => MinuteReview)
   @JoinColumn({ name: 'minute_review_id' })
