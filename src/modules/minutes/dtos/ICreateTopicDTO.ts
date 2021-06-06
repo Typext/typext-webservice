@@ -1,4 +1,4 @@
-export default interface ICreateMinuteDTO {
+export default interface ICreateTopicDTO {
   minute_id: number;
   name: string;
   responsible: string;

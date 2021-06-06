@@ -57,6 +57,8 @@ export default class MinutesController {
   public async update(request: Request, response: Response): Promise<Response> {
     const updateMinuteDTO = request.body;
 
+    const userId = Number(request.user.id);
+
     const updateMinuteService = container.resolve(UpdateMinuteService);
 
     const updatedMinute = await updateMinuteService.execute(updateMinuteDTO);

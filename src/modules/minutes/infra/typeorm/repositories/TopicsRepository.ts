@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 // import ITopicsRepository from '@modules/minutes/repositories/ITopicsRepository';
 // import { getRepository, Repository } from 'typeorm';
 
@@ -39,6 +41,19 @@ class TopicisRepository implements ITopicsRepository {
     await this.ormRepository.save(createTopic);
 
     return createTopic;
+  }
+
+  public async destroyAll(
+    request: ICreateTopicDTO,
+  ): Promise<Topic[] | undefined> {
+    const foundTopics = await this.ormRepository.find({
+      where: { minute_id: request.minute_id },
+    });
+
+    for (const topic of foundTopics) {
+      this.ormRepository.delete(topic.id);
+    }
+    return foundTopics;
   }
 
   public async index(minuteId: number): Promise<Topic[]> {

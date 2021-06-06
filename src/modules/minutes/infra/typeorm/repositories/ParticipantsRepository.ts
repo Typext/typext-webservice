@@ -1,4 +1,5 @@
 import IParticipantsRepository from '@modules/minutes/repositories/IParticipantsRepository';
+import IUpdateParticipantDTO from '@modules/minutes/dtos/IUpdateParticipantDTO';
 import { getRepository, Repository } from 'typeorm';
 
 import ICreateParticipantDTO from '@modules/minutes/dtos/ICreateParticipantDTO';
@@ -26,6 +27,25 @@ class ParticipantsRepository implements IParticipantsRepository {
       where: { minute_id: request.minute_id, email: request.participant_email },
     });
     return foundParticipant;
+  }
+
+  public async update(
+    request: IUpdateParticipantDTO,
+  ): Promise<Participant | undefined> {
+    const foundParticipant = await this.ormRepository.findOne({
+      where: { minute_id: request.minute_id, email: request.email },
+    });
+
+    const newParticipant = await this.ormRepository.create(request);
+
+    Object.assign(newParticipant, {
+      id: foundParticipant?.id,
+      minute_id: request.minute_id,
+    });
+
+    await this.ormRepository.save(newParticipant);
+
+    return newParticipant;
   }
 
   public async index(minuteId: number): Promise<Participant[]> {
