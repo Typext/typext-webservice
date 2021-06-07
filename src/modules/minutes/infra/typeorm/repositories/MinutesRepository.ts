@@ -39,6 +39,11 @@ class MinutesRepository implements IMinutesRepository {
     const savedMinute = await this.ormRepository.save(minute);
     return savedMinute;
   }
+
+  public async endSchedule(minute: Omit<Minute, 'user_id'>): Promise<Minute> {
+    const savedMinute = await this.ormRepository.save(minute);
+    return savedMinute;
+  }
 }
 
 export default MinutesRepository;

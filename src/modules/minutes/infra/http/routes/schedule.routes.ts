@@ -11,6 +11,7 @@ const schedulesController = new SchedulesController();
 scheduleRouter.use(ensureAuthenticated);
 
 scheduleRouter.post('/', schedulesController.create);
+scheduleRouter.put('/:id', schedulesController.update);
 
 scheduleRouter.delete(
   '/minuteId/:minuteId',
