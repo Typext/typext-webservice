@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 import { inject, injectable } from 'tsyringe';
 
+import AppError from '@shared/errors/AppError';
 import Minute from '../infra/typeorm/entities/Minute';
 import IMinutesRepository from '../repositories/IMinutesRepository';
 import IParticipantsRepository from '../repositories/IParticipantsRepository';
@@ -16,6 +17,7 @@ interface IRequest {
     schedules: string[];
     areas: string[];
     status: string;
+    minute_id: string;
     user_id: string;
   };
   participant: {
@@ -52,24 +54,25 @@ class CreateMinuteService {
   ) {}
 
   public async execute(minuteData: IRequest): Promise<Minute> {
-    Object.assign(minuteData.minute, { status: 'nova', minute_number: '2021' });
+    const findMinute = await this.minutesRepository.findById(
+      minuteData.minute.minute_id.id,
+    );
 
-    const createMinute = await this.minutesRepository.create(minuteData.minute);
-
-    createMinute.minute_number = `${createMinute.id.toString()}/2021`;
-    createMinute.end_date = new Date();
-
-    await this.minutesRepository.save(createMinute);
-
-    for (const participant of minuteData.participant) {
-      Object.assign(participant, { minute_id: createMinute.id });
-      this.participantsRepository.create(participant);
+    if (!findMinute) {
+      throw new AppError('Minute not found', 404);
     }
 
-    for (const topic of minuteData.topic) {
-      Object.assign(topic, { minute_id: createMinute.id });
-      this.topicsRepository.create(topic);
-    }
+    Object.assign(findMinute, {
+      user_id: minuteData.minute.user_id,
+    });
+
+    findMinute.end_date = new Date();
+
+    findMinute.status = 'nova';
+
+    console.log(findMinute);
+
+    const createMinute = await this.minutesRepository.save(findMinute);
 
     await this.logsRepository.create({
       user_id: createMinute.user_id,
@@ -77,7 +80,7 @@ class CreateMinuteService {
       registered_action: 'Criação de ata',
     });
 
-    return minuteData;
+    return findMinute;
   }
 }
 

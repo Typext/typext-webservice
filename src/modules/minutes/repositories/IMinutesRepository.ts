@@ -6,4 +6,5 @@ export default interface IMinutesRepository {
   create(minute: Minute): Promise<Minute>;
   deleteScheduleMeeting(minute: Minute): Promise<void>;
   save(minute: Minute): Promise<Minute>;
+  endSchedule(minute: Omit<Minute, 'user_id'>): Promise<Minute>;
 }
