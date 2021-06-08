@@ -27,7 +27,7 @@ class LogsRepository implements ILogsRepository {
 
   public async findByMinute(id: number): Promise<Log[]> {
     const minuteLogs = await this.ormRepository.find({
-      where: { id },
+      where: { minute_id: id },
       relations: ['user'],
     });
 
